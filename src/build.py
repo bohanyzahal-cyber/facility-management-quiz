@@ -108,6 +108,17 @@ BANK.forEach((q,i)=>{
   else if(new Set(q.o).size!==4)          err.push(at+' — אפשרות כפולה');
   if(typeof q.c!=='number'||q.c<0||q.c>3) err.push(at+' — c מחוץ לתחום');
   if((q.o||[]).some(o=>POS.test(o)))      err.push(at+' — מסיח תלוי-מיקום');
+  /* כפילות ניסוח: נוצרת כשמאריכים מסיח בטקסט שכבר מופיע בסופו.
+     קרה פעמיים, ובדיקת האורך עוברת עליה בשקט — היא סופרת תווים. */
+  (q.o||[]).forEach((o,oi)=>{
+    const w=String(o).split(/\s+/);
+    for(let k=0;k+1<w.length;k++){
+      if(w[k].length>=4 && w[k]===w[k+1]) { err.push(at+' — מילה כפולה ברצף: "'+w[k]+'"'); break; }
+      if(k+3<w.length && w[k].length>=4 && w[k]===w[k+3] && w[k+1]===w[k+4]) {
+        err.push(at+' — ביטוי חוזר: "'+w.slice(k,k+2).join(' ')+'"'); break;
+      }
+    }
+  });
   if((q.e||'').length<40)                 err.push(at+' — הסבר קצר מדי');
   if(seen[q.q]!==undefined)               err.push(at+' — שאלה כפולה (גם ב-#'+seen[q.q]+')');
   else seen[q.q]=i;

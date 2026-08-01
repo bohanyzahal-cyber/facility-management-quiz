@@ -15,9 +15,13 @@ TARGETS = [
     os.path.join(COURSE, "בוחן תרגול - ניהול תשתיות גלובליות.html"),
 ]
 
+def bank_files():
+    """מיון מספרי — מיון לקסיקוגרפי היה שם את bank10 לפני bank2."""
+    fs = glob.glob(os.path.join(HERE, "bank*.js"))
+    return sorted(fs, key=lambda f: int(re.search(r"bank(\d+)", os.path.basename(f)).group(1)))
+
 tpl  = open(os.path.join(HERE, "template.html"), encoding="utf-8").read()
-bank = "\n".join(open(f, encoding="utf-8").read()
-                 for f in sorted(glob.glob(os.path.join(HERE, "bank*.js"))))
+bank = "\n".join(open(f, encoding="utf-8").read() for f in bank_files())
 html = tpl.replace("/*__BANK__*/", bank)
 
 for t in TARGETS:
@@ -101,7 +105,7 @@ try:
         bad_files = []
         # כל קובץ בנפרד — כך רואים מיד אם מנה חדשה של שאלות חורגת,
         # גם כשהממוצע הכולל עדיין נראה תקין.
-        for f in sorted(glob.glob(os.path.join(HERE, "bank*.js"))):
+        for f in bank_files():
             name = os.path.basename(f)
             txt = open(f, encoding="utf-8").read()
             if report(length_stats(txt, td, name), name):

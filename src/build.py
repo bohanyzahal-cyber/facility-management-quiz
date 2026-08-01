@@ -31,6 +31,8 @@ print("גודל: %.0f KB" % (len(html) / 1024))
 
 # ---------- בדיקות שפיות ----------
 objs = re.findall(r'\{t:"(.*?)",s:"(.*?)",q:', bank)
+# המחרוזות במקור הן JS מוברח — \" חוזר להיות " (למשל: נדל"ן)
+objs = [(t.replace('\\"', '"'), s.replace('\\"', '"')) for t, s in objs]
 print("\nשאלות:", len(objs))
 
 topics, srcs = {}, {}
@@ -52,6 +54,40 @@ for c in cs:
 print("\nפיזור אינדקס התשובה הנכונה במקור:", dict(sorted(dist.items())))
 if len(cs) != len(objs):
     print("!! אזהרה: לא כל השאלות נותחו (%d מתוך %d)" % (len(cs), len(objs)))
+
+# ---------- עדכון אוטומטי של ה-README ----------
+# הטבלה התיישנה בכל פעם שנוספו שאלות, ולכן היא נבנית מהנתונים עצמם.
+def update_readme():
+    path = os.path.join(REPO, "README.md")
+    if not os.path.exists(path):
+        return
+    txt = open(path, encoding="utf-8").read()
+    start, end = "<!-- STATS:START", "<!-- STATS:END -->"
+    i, j = txt.find(start), txt.find(end)
+    if i < 0 or j < 0:
+        return
+    ordered = sorted(topics.items(), key=lambda x: -x[1])
+    # שלוש עמודות, מילוי לפי שורות
+    rows = (len(ordered) + 2) // 3
+    cols = [ordered[k*rows:(k+1)*rows] for k in range(3)]
+    lines = ["| נושא | | נושא | | נושא |", "|---|---|---|---|---|"]
+    for r in range(rows):
+        cells = []
+        for c in range(3):
+            cells.append("%s · %d" % cols[c][r] if r < len(cols[c]) else "")
+        lines.append("| %s | | %s | | %s |" % tuple(cells))
+    src_line = " · ".join("%s (%d)" % (k, v) for k, v in sorted(srcs.items(), key=lambda x: -x[1]))
+    block = (
+        "<!-- STATS:START — נוצר אוטומטית על ידי src/build.py, אין לערוך ידנית -->\n"
+        "**%d שאלות** בפורמט המבחן — רב-ברירתי (אמריקאי), 4 תשובות לשאלה, חומר פתוח, ציון עובר 60.\n\n"
+        "%s\n\n"
+        "**לפי מקור:** %s\n"
+        % (len(objs), "\n".join(lines), src_line)
+    )
+    open(path, "w", encoding="utf-8").write(txt[:i] + block + txt[j:])
+    print("עודכן:", path)
+
+update_readme()
 
 # ---------- בדיקת "תל האורך" ----------
 # כשכותבים שאלות בכמות, התשובה הנכונה יוצאת כמעט תמיד הארוכה ביותר,

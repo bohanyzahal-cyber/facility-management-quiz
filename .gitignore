@@ -1,0 +1,13 @@
+# חומרי הקורס עצמם לא נכנסים למאגר
+*.pptx
+*.docx
+*.pdf
+*.mp3
+*.mp4
+*.wav
+
+# פלטי ביניים
+__pycache__/
+*.pyc
+transcripts/
+audio/

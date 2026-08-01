@@ -48,3 +48,43 @@ for c in cs:
 print("\nפיזור אינדקס התשובה הנכונה במקור:", dict(sorted(dist.items())))
 if len(cs) != len(objs):
     print("!! אזהרה: לא כל השאלות נותחו (%d מתוך %d)" % (len(cs), len(objs)))
+
+# ---------- בדיקת "תל האורך" ----------
+# כשכותבים שאלות בכמות, התשובה הנכונה יוצאת כמעט תמיד הארוכה ביותר,
+# ואז אפשר לענות נכון בלי לקרוא. זו בדיקה שהבעיה לא חזרה.
+import json, subprocess, tempfile
+CHECK = r"""
+const fs=require('fs');
+eval(fs.readFileSync(process.argv[2],'utf8'));
+const n=BANK.length, rank=[0,0,0,0];
+let long=0, short=0;
+BANK.forEach(q=>{
+  const L=q.o.map(o=>o.length), max=Math.max(...L), min=Math.min(...L);
+  if(L.indexOf(max)===q.c) long++;
+  if(L.indexOf(min)===q.c) short++;
+  rank[L.map((l,i)=>[l,i]).sort((a,b)=>b[0]-a[0]).map(x=>x[1]).indexOf(q.c)]++;
+});
+console.log(JSON.stringify({n,long,short,rank}));
+"""
+try:
+    with tempfile.TemporaryDirectory() as td:
+        jsf = os.path.join(td, "bank.js"); open(jsf, "w", encoding="utf-8").write(bank)
+        chk = os.path.join(td, "check.js"); open(chk, "w", encoding="utf-8").write(CHECK)
+        r = subprocess.run(["node", chk, jsf], capture_output=True, text=True, encoding="utf-8")
+        s = json.loads(r.stdout.strip())
+        n = s["n"]
+        pct = lambda x: int(round(x / n * 100))
+        print("\nבדיקת אורך התשובות (כדי שלא ניתן יהיה לענות בלי לקרוא):")
+        print("  \"בחר את הארוכה ביותר\" = %d%%   \"בחר את הקצרה ביותר\" = %d%%   [מקרי ≈ 25%%]"
+              % (pct(s["long"]), pct(s["short"])))
+        print("  פיזור דירוג-האורך של הנכונה:", "  ".join("%d%%" % pct(x) for x in s["rank"]),
+              "  [אחיד = 25% בכל מקום]")
+        worst = max(s["rank"])
+        if pct(worst) > 45:
+            print("  !! אזהרה: אפשר לצבור %d%% בלי לקרוא — הארך מסיחים בשאלות החורגות" % pct(worst))
+        elif pct(s["long"]) > 40:
+            print("  !! אזהרה: התשובה הנכונה היא הארוכה ביותר לעיתים קרובות מדי")
+        else:
+            print("  תקין.")
+except Exception as e:
+    print("\n(בדיקת האורך דילגה — נדרש node:", e, ")")

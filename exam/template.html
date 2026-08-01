@@ -182,6 +182,27 @@ DATA.sections.forEach(function(sec,si){
       bd=newPage(sec,true); pg=bd.parentNode;
       trail.forEach(function(t){bd.appendChild(t);});
       bd.appendChild(el);
+      /* בלוק גדול מעמוד שלם — טבלה ארוכה או רשימה ארוכה — נחתך לשורות */
+      while(!fits(pg) && el.rows && el.rows.length>1){
+        var cut=E(el.tagName), moved=false;
+        while(!fits(pg) && el.rows.length>1){
+          cut.insertBefore(el.rows[el.rows.length-1], cut.firstChild);
+          moved=true;
+        }
+        if(!moved) break;
+        bd=newPage(sec,true); pg=bd.parentNode;
+        bd.appendChild(cut); el=cut;
+      }
+      while(!fits(pg) && el.children && el.children.length>1 && !el.rows){
+        var cut2=E(el.tagName,{'class':el.getAttribute('class')||''}), moved2=false;
+        while(!fits(pg) && el.children.length>1){
+          cut2.insertBefore(el.lastElementChild, cut2.firstChild);
+          moved2=true;
+        }
+        if(!moved2) break;
+        bd=newPage(sec,true); pg=bd.parentNode;
+        bd.appendChild(cut2); el=cut2;
+      }
     }
   });
 });

@@ -226,11 +226,18 @@ pages.forEach(function(p,i){
 });
 var keys=Object.keys(terms).sort(function(a,b){return a.localeCompare(b,'he');});
 var ixSec={name:'מפתח',color:'#3d4650',sub:'לפי א״ב',idx:DATA.sections.length-1};
-var bd=newPage(ixSec,false), pg=bd.parentNode, idx=E('div',{'class':'idx'});
-bd.appendChild(idx);
+/* המפתח מתפרס על פני כמה עמודים בדיוק כמו התוכן — אחרת הוא גולש. */
+var ibd=newPage(ixSec,false), ipg=ibd.parentNode, idx=E('div',{'class':'idx'});
+ibd.appendChild(idx);
 keys.forEach(function(k){
   var u=terms[k].filter(function(v,i,a){return a.indexOf(v)===i;});
-  idx.appendChild(E('div',{},'<span class="t">'+k+'</span> <span class="p">'+u.join(', ')+'</span>'));
+  var row=E('div',{},'<span class="t">'+k+'</span> <span class="p">'+u.join(', ')+'</span>');
+  idx.appendChild(row);
+  if(!fits(ipg)){
+    idx.removeChild(row);
+    ibd=newPage(ixSec,true); ipg=ibd.parentNode;
+    idx=E('div',{'class':'idx'}); ibd.appendChild(idx); idx.appendChild(row);
+  }
 });
 pages.forEach(function(p,i){var e=p.querySelector('.pgn');if(e)e.innerHTML='עמ׳ <b>'+(i+2)+'</b>';});
 

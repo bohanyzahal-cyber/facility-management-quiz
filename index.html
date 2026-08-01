@@ -541,7 +541,7 @@ var app=document.getElementById("app");
 var TOPICS=[]; (function(){var s={};BANK.forEach(function(b){if(!s[b.t]){s[b.t]=1;TOPICS.push(b.t);}}); })();
 var SOURCES=[]; (function(){var s={};BANK.forEach(function(b){if(!s[b.s]){s[b.s]=1;SOURCES.push(b.s);}}); })();
 
-var sel={topics:TOPICS.slice(),src:"all",mode:"practice",shuffle:true,minutes:0,count:0};
+var sel={topics:TOPICS.slice(),src:"all",mode:"practice",shuffle:true,minutes:0,count:0,balanced:true};
 var quiz=[],idx=0,score=0,answered=false,wrong=[],ansMap=[],timer=null,timeLeft=0;
 
 document.getElementById("sub").textContent =
@@ -643,6 +643,9 @@ function setup(){
   sh.onclick=function(){sel.shuffle=!sel.shuffle;setup();};
   row4.appendChild(sh);
   if(sel.mode==="exam"){
+    var bal=E("button",{"class":"chip"+(sel.balanced?" active":"")},"פריסה מאוזנת בין נושאים");
+    bal.onclick=function(){sel.balanced=!sel.balanced;setup();};
+    row4.appendChild(bal);
     [[20,"20 שאלות"],[30,"30 שאלות"],[0,"הכל"]].forEach(function(n){
       var b=E("button",{"class":"chip"+(sel.count===n[0]?" active":"")},n[1]);
       b.onclick=function(){sel.count=n[0];setup();};
@@ -762,9 +765,28 @@ function pResults(){
 }
 
 /* ---------- exam mode ---------- */
+/* דגימה מאוזנת בין נושאים: המאגר אינו מאוזן (יש נושאים עם פי-4 שאלות
+   מאחרים, לפי כמה חומר יש עליהם), ולכן דגימה אקראית פשוטה תיתן מבחן
+   שרובו שניים-שלושה נושאים. כאן לוקחים לסירוגין מכל נושא בתורו. */
+function balancedPick(arr,n){
+  var byTopic={},order=[];
+  arr.forEach(function(q){ if(!byTopic[q.t]){byTopic[q.t]=[];order.push(q.t);} byTopic[q.t].push(q); });
+  var out=[],i=0;
+  while(out.length<n){
+    var added=false;
+    for(var k=0;k<order.length&&out.length<n;k++){
+      var pool=byTopic[order[k]];
+      if(i<pool.length){ out.push(pool[i]); added=true; }
+    }
+    if(!added)break;      /* מוצו כל הנושאים */
+    i++;
+  }
+  return out;
+}
 function examStart(){
   quiz=buildQuiz();
-  if(sel.count&&quiz.length>sel.count)quiz=quiz.slice(0,sel.count);
+  if(sel.count&&quiz.length>sel.count)
+    quiz=sel.balanced?shuffle(balancedPick(quiz,sel.count)):quiz.slice(0,sel.count);
   idx=0;ansMap=new Array(quiz.length);
   timeLeft=sel.minutes*60;
   if(sel.minutes)startTimer();

@@ -149,7 +149,7 @@ var app=document.getElementById("app");
 var TOPICS=[]; (function(){var s={};BANK.forEach(function(b){if(!s[b.t]){s[b.t]=1;TOPICS.push(b.t);}}); })();
 var SOURCES=[]; (function(){var s={};BANK.forEach(function(b){if(!s[b.s]){s[b.s]=1;SOURCES.push(b.s);}}); })();
 
-var sel={topics:TOPICS.slice(),src:"all",mode:"practice",shuffle:true,minutes:0,count:0,balanced:true};
+var sel={topics:TOPICS.slice(),src:"all",mode:"practice",shuffle:true,minutes:0,count:0,pcount:20,balanced:true};
 var quiz=[],idx=0,score=0,answered=false,wrong=[],ansMap=[],timer=null,timeLeft=0;
 
 document.getElementById("sub").textContent =
@@ -250,6 +250,15 @@ function setup(){
   var sh=E("button",{"class":"chip"+(sel.shuffle?" active":"")},"ערבוב שאלות");
   sh.onclick=function(){sel.shuffle=!sel.shuffle;setup();};
   row4.appendChild(sh);
+  if(sel.mode==="practice"){
+    /* אורך סבב: בלי הגבלה צריך לענות על כל המאגר כדי להגיע למסך התוצאות,
+       ורק שם מופיע הכפתור לתרגול השגויות. סבב קצר הופך אותו לשמיש. */
+    [[20,"סבב של 20"],[40,"סבב של 40"],[0,"כל השאלות"]].forEach(function(n){
+      var b=E("button",{"class":"chip"+(sel.pcount===n[0]?" active":"")},n[1]);
+      b.onclick=function(){sel.pcount=n[0];setup();};
+      row4.appendChild(b);
+    });
+  }
   if(sel.mode==="exam"){
     var bal=E("button",{"class":"chip"+(sel.balanced?" active":"")},"פריסה מאוזנת בין נושאים");
     bal.onclick=function(){sel.balanced=!sel.balanced;setup();};
@@ -308,6 +317,10 @@ function topBar(extraHtml){
 /* ---------- practice mode ---------- */
 function practiceStart(){
   quiz=buildQuiz();
+  /* אותה דגימה מאוזנת של המבחן — סבב קצר שמרוכז בשניים-שלושה נושאים
+     אינו מייצג, והמאגר אינו מאוזן בין הנושאים. */
+  if(sel.pcount&&quiz.length>sel.pcount)
+    quiz=shuffle(balancedPick(quiz,sel.pcount));
   idx=0;score=0;wrong=[];ansMap=[];
   pRender();
 }

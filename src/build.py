@@ -89,10 +89,56 @@ def update_readme():
 
 update_readme()
 
+# ---------- בדיקות מבנה ----------
+# עד כה נבדקו ידנית בדפדפן. כאן הן רצות בכל בנייה.
+import json, subprocess, tempfile
+
+STRUCT = r"""
+const fs=require('fs');
+eval(fs.readFileSync(process.argv[2],'utf8'));
+/* דפוסים תלויי-מיקום: האפליקציה מערבבת את סדר האפשרויות בכל סבב,
+   ולכן מסיח כמו "כל התשובות נכונות" או "תשובות א'+ב'" נשבר.
+   הביטוי צר בכוונה — "כל הנ" הרחב תפס גם "בכל הנוגע" ו"כל הנכסים". */
+const POS=/כל התשובות נכונות|כל הנ["״']ל|תשובות? א['׳']\s*\+|א['׳']\s*\+\s*ב['׳']|אף תשובה אינה|כל האמור לעיל/;
+const err=[], seen={};
+BANK.forEach((q,i)=>{
+  const at=`#${i} ${(q.q||'').slice(0,40)}`;
+  if(!q.t||!q.s||!q.q||!q.e)             err.push(at+' — שדה חסר');
+  if(!Array.isArray(q.o)||q.o.length!==4) err.push(at+' — אין בדיוק 4 אפשרויות');
+  else if(new Set(q.o).size!==4)          err.push(at+' — אפשרות כפולה');
+  if(typeof q.c!=='number'||q.c<0||q.c>3) err.push(at+' — c מחוץ לתחום');
+  if((q.o||[]).some(o=>POS.test(o)))      err.push(at+' — מסיח תלוי-מיקום');
+  if((q.e||'').length<40)                 err.push(at+' — הסבר קצר מדי');
+  if(seen[q.q]!==undefined)               err.push(at+' — שאלה כפולה (גם ב-#'+seen[q.q]+')');
+  else seen[q.q]=i;
+});
+console.log(JSON.stringify({n:BANK.length,err}));
+"""
+
+try:
+    with tempfile.TemporaryDirectory() as td:
+        jsf = os.path.join(td, "all.js")
+        open(jsf, "w", encoding="utf-8").write(bank)
+        chk = os.path.join(td, "struct.js")
+        open(chk, "w", encoding="utf-8").write(STRUCT)
+        r = subprocess.run(["node", chk, jsf], capture_output=True, text=True, encoding="utf-8")
+        if r.returncode != 0:
+            raise RuntimeError((r.stderr or "")[:300])
+        s = json.loads(r.stdout.strip())
+        print("\nבדיקות מבנה (%d שאלות):" % s["n"])
+        if s["err"]:
+            for e in s["err"][:25]:
+                print("  !!", e)
+            if len(s["err"]) > 25:
+                print("  ... ועוד %d" % (len(s["err"]) - 25))
+        else:
+            print("  תקין — ללא כפילויות, שדות חסרים או מסיחים תלויי-מיקום.")
+except Exception as e:
+    print("\n(בדיקות המבנה דילגו — נדרש node:", e, ")")
+
 # ---------- בדיקת "תל האורך" ----------
 # כשכותבים שאלות בכמות, התשובה הנכונה יוצאת כמעט תמיד הארוכה ביותר,
 # ואז אפשר לענות נכון בלי לקרוא. זו בדיקה שהבעיה לא חזרה.
-import json, subprocess, tempfile
 CHECK = r"""
 const fs=require('fs');
 eval(fs.readFileSync(process.argv[2],'utf8'));

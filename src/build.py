@@ -66,25 +66,52 @@ BANK.forEach(q=>{
 });
 console.log(JSON.stringify({n,long,short,rank}));
 """
+def length_stats(js_text, td, tag):
+    """מריץ את בדיקת האורך על קטע קוד נתון ומחזיר סטטיסטיקה."""
+    jsf = os.path.join(td, "b_%s.js" % tag)
+    # קובץ ראשון מגדיר את BANK בעצמו; השאר מוסיפים אליו
+    prefix = "" if js_text.lstrip().startswith("var BANK") else "var BANK=[];\n"
+    open(jsf, "w", encoding="utf-8").write(prefix + js_text)
+    chk = os.path.join(td, "check.js")
+    if not os.path.exists(chk):
+        open(chk, "w", encoding="utf-8").write(CHECK)
+    r = subprocess.run(["node", chk, jsf], capture_output=True, text=True, encoding="utf-8")
+    if r.returncode != 0:
+        raise RuntimeError((r.stderr or "")[:200])
+    return json.loads(r.stdout.strip())
+
+def report(s, label, indent="  "):
+    """מדווח על שתי האסטרטגיות שנבחן אם ניתן להפעיל אותן בלי לקרוא:
+       'בחר את הארוכה ביותר' ו'בחר את הקצרה ביותר'. אלו היחידות שאדם
+       באמת מסוגל להפעיל בעין; פיזור הדירוג המלא מוצג כמידע בלבד
+       (למשל 'שלישית באורכה' אינו תל שניתן לנצל בפועל)."""
+    n = s["n"]
+    if not n:
+        return False
+    pct = lambda x: int(round(x / n * 100))
+    flag = "  <-- !!" if max(pct(s["long"]), pct(s["short"])) > 45 else ""
+    print("%s%-14s n=%-4d ארוכה=%3d%%  קצרה=%3d%%  (פיזור %s)%s"
+          % (indent, label, n, pct(s["long"]), pct(s["short"]),
+             "/".join("%d" % pct(x) for x in s["rank"]), flag))
+    return bool(flag)
+
 try:
     with tempfile.TemporaryDirectory() as td:
-        jsf = os.path.join(td, "bank.js"); open(jsf, "w", encoding="utf-8").write(bank)
-        chk = os.path.join(td, "check.js"); open(chk, "w", encoding="utf-8").write(CHECK)
-        r = subprocess.run(["node", chk, jsf], capture_output=True, text=True, encoding="utf-8")
-        s = json.loads(r.stdout.strip())
-        n = s["n"]
-        pct = lambda x: int(round(x / n * 100))
-        print("\nבדיקת אורך התשובות (כדי שלא ניתן יהיה לענות בלי לקרוא):")
-        print("  \"בחר את הארוכה ביותר\" = %d%%   \"בחר את הקצרה ביותר\" = %d%%   [מקרי ≈ 25%%]"
-              % (pct(s["long"]), pct(s["short"])))
-        print("  פיזור דירוג-האורך של הנכונה:", "  ".join("%d%%" % pct(x) for x in s["rank"]),
-              "  [אחיד = 25% בכל מקום]")
-        worst = max(s["rank"])
-        if pct(worst) > 45:
-            print("  !! אזהרה: אפשר לצבור %d%% בלי לקרוא — הארך מסיחים בשאלות החורגות" % pct(worst))
-        elif pct(s["long"]) > 40:
-            print("  !! אזהרה: התשובה הנכונה היא הארוכה ביותר לעיתים קרובות מדי")
+        print("\nבדיקת אורך התשובות (כדי שלא ניתן יהיה לענות בלי לקרוא) — [מקרי ≈ 25%, אחיד = 25/25/25/25]:")
+        bad_files = []
+        # כל קובץ בנפרד — כך רואים מיד אם מנה חדשה של שאלות חורגת,
+        # גם כשהממוצע הכולל עדיין נראה תקין.
+        for f in sorted(glob.glob(os.path.join(HERE, "bank*.js"))):
+            name = os.path.basename(f)
+            txt = open(f, encoding="utf-8").read()
+            if report(length_stats(txt, td, name), name):
+                bad_files.append(name)
+        print("  " + "-" * 58)
+        report(length_stats(bank, td, "all"), "סה\"כ")
+        if bad_files:
+            print("  !! חריגה ב:", ", ".join(bad_files),
+                  "— אפשר לצבור שם מעל 45% בלי לקרוא. הארך (או קצר) מסיחים בקובץ החורג.")
         else:
-            print("  תקין.")
+            print("  תקין — אף אסטרטגיה עיוורת אינה עוברת 45% באף קובץ.")
 except Exception as e:
     print("\n(בדיקת האורך דילגה — נדרש node:", e, ")")

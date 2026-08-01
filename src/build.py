@@ -143,14 +143,25 @@ CHECK = r"""
 const fs=require('fs');
 eval(fs.readFileSync(process.argv[2],'utf8'));
 const n=BANK.length, rank=[0,0,0,0];
-let long=0, short=0;
-BANK.forEach(q=>{
+let long=0, short=0, outlierHit=0;
+const outliers=[];
+BANK.forEach((q,qi)=>{
   const L=q.o.map(o=>o.length), max=Math.max(...L), min=Math.min(...L);
   if(L.indexOf(max)===q.c) long++;
   if(L.indexOf(min)===q.c) short++;
   rank[L.map((l,i)=>[l,i]).sort((a,b)=>b[0]-a[0]).map(x=>x[1]).indexOf(q.c)]++;
+  /* חריגה בולטת לעין: לא הדירוג אלא הפער. תשובה נכונה שקצרה או ארוכה
+     בהרבה מממוצע המסיחים בולטת גם בלי לקרוא — לכל כיוון. */
+  const d=L.filter((_,i)=>i!==q.c), avg=d.reduce((a,b)=>a+b,0)/d.length;
+  const gap=(L[q.c]-avg)/avg;
+  if(Math.abs(gap)>=0.40) outliers.push({i:qi,q:q.q.slice(0,42),pct:Math.round(gap*100)});
+  /* מה שבאמת מעניין אינו כמה חריגות יש, אלא האם ניתן לנצל אותן:
+     "בחר את האפשרות שאורכה חורג ביותר מממוצע הארבע". */
+  const mean=L.reduce((a,b)=>a+b,0)/4;
+  const far=L.map((l,i)=>[Math.abs(l-mean),i]).sort((a,b)=>b[0]-a[0])[0][1];
+  if(far===q.c) outlierHit++;
 });
-console.log(JSON.stringify({n,long,short,rank}));
+console.log(JSON.stringify({n,long,short,rank,outliers,outlierHit}));
 """
 def length_stats(js_text, td, tag):
     """מריץ את בדיקת האורך על קטע קוד נתון ומחזיר סטטיסטיקה."""
@@ -193,7 +204,21 @@ try:
             if report(length_stats(txt, td, name), name):
                 bad_files.append(name)
         print("  " + "-" * 58)
-        report(length_stats(bank, td, "all"), "סה\"כ")
+        all_stats = length_stats(bank, td, "all")
+        report(all_stats, "סה\"כ")
+        # דירוג לבדו אינו מספיק: תשובה נכונה יכולה להיות "שנייה באורכה"
+        # ועדיין לבלוט לעין אם הפער ממוצע המסיחים גדול. מה שקובע הוא
+        # האם אפשר לנצל את זה — ולכן מדווח ציון האסטרטגיה, לא רק המספר.
+        out = all_stats.get("outliers", [])
+        n_all = all_stats["n"]
+        hit = all_stats.get("outlierHit", 0)
+        pct_hit = int(round(hit / n_all * 100)) if n_all else 0
+        longish = sum(1 for o in out if o["pct"] > 0)
+        print("\n  חריגות אורך (פער מממוצע המסיחים, לא דירוג):")
+        print("    %d שאלות חורגות ב-40%% ומעלה — %d ארוכות מדי, %d קצרות מדי"
+              % (len(out), longish, len(out) - longish))
+        print("    אסטרטגיית \"בחר את החורגת ביותר\": %d%%%s"
+              % (pct_hit, "   <-- !!" if pct_hit > 45 else "   (מקרי 25%, עובר 60)"))
         if bad_files:
             print("  !! חריגה ב:", ", ".join(bad_files),
                   "— אפשר לצבור שם מעל 45% בלי לקרוא. הארך (או קצר) מסיחים בקובץ החורג.")

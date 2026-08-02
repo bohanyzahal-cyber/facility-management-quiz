@@ -123,7 +123,27 @@ BANK.forEach((q,i)=>{
   if(seen[q.q]!==undefined)               err.push(at+' — שאלה כפולה (גם ב-#'+seen[q.q]+')');
   else seen[q.q]=i;
 });
-console.log(JSON.stringify({n:BANK.length,err}));
+
+/* מפתח תשובה שגוי: c מצביע על מסיח בעוד ההסבר מתאר אפשרות אחרת.
+   קרה פעם אחת (תרבות העבודה ביפן) ואף בדיקה קיימת לא ראתה זאת —
+   כולן בודקות מבנה ואורך, לא התאמה בין התוכן לבין מה שסומן.
+   ההיגיון: ההסבר תמיד מרחיב את התשובה הנכונה ולכן חופף לה יותר.
+   מדד רועש — לכן זו התראה לבדיקה ידנית ולא שגיאה. */
+const STOP=new Set(('של את על אל כי גם רק אם לא זה זו אלה הוא היא הם הן אני אתה אנחנו יש אין כל כמו אבל או אז מה מי איך למה כאשר לאחר לפני בתוך בין עם ללא אשר היה היו יהיה להיות אינו אינה אינם מפני מכיוון בגלל כדי לכן ולכן אלא אף כך יותר פחות מאוד ממש בדרך כלל למשל דוגמה בהרצאה המרצה שהוא שהיא ניתן צריך יכול אפשר בפועל בלבד כמובן עדיין זאת אותו אותה אותם').split(' '));
+const stem=w=>w.replace(/^(כש|לכ|מה|שה|וה|וב|ול|ומ|ו|ה|ב|ל|מ|ש|כ)/,'');
+const toks=s=>{const o=new Set();String(s).split(/[^\wא-ת]+/).forEach(w=>{
+  if(w.length>=4 && !STOP.has(w)) o.add(stem(w));});return o;};
+const key=[];
+BANK.forEach((q,i)=>{
+  if(!q.e||!Array.isArray(q.o)) return;
+  const E=toks(q.e);
+  const sc=q.o.map(o=>{const O=toks(o);let n=0;O.forEach(x=>{if(E.has(x))n++;});
+                       return O.size? n/Math.sqrt(O.size):0;});
+  const best=sc.indexOf(Math.max(...sc));
+  if(best!==q.c && sc[best]-sc[q.c] > 1.5)
+    key.push('#'+i+' מסומן '+q.c+' אך ההסבר מתאים ל-'+best+' — '+(q.q||'').slice(0,44));
+});
+console.log(JSON.stringify({n:BANK.length,err,key}));
 """
 
 try:
@@ -144,6 +164,8 @@ try:
                 print("  ... ועוד %d" % (len(s["err"]) - 25))
         else:
             print("  תקין — ללא כפילויות, שדות חסרים או מסיחים תלויי-מיקום.")
+        for k in s.get("key", []):
+            print("  !! מפתח תשובה:", k)
 except Exception as e:
     print("\n(בדיקות המבנה דילגו — נדרש node:", e, ")")
 

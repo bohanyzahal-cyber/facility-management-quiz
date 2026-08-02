@@ -98,6 +98,12 @@ header .sub{color:var(--muted);font-size:13.5px;margin-bottom:16px;}
 .opt.locked:hover{background:var(--surface);border-color:var(--borderS);}
 .opt.correct.locked:hover{background:var(--okBg);border-color:var(--okBd);}
 .opt.wrong.locked:hover{background:var(--errBg);border-color:var(--errBd);}
+/* במצב מבחן אין משוב עד ההגשה — הבחירה מסומנת בכחול נייטרלי,
+   באותה שפה חזותית של "נענתה" במפת השאלות. ירוק אומר "נכון". */
+.opt.picked{background:var(--accentSoft);border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);}
+.opt.picked .ltr{color:var(--accent);}
+.opt.picked:hover{background:var(--accentSoft);border-color:var(--accent);}
+.opt.picked .ltr::after{content:" ✓";font-size:12px;}
 .expl{margin-top:8px;padding:13px 15px;border-radius:10px;background:var(--accentSoft);
   border:1px solid var(--border);font-size:14px;}
 .expl .tag{font-weight:700;color:var(--accent);}
@@ -1693,7 +1699,7 @@ function eRender(){
 
   var box=E("div");
   q.o.forEach(function(txt,i){
-    var b=E("button",{"class":"opt"+(ansMap[idx]===i?" correct":"")});
+    var b=E("button",{"class":"opt"+(ansMap[idx]===i?" picked":"")});
     b.innerHTML='<span class="ltr">'+LET[i]+'</span><span>'+txt+'</span>';
     b.onclick=function(){ansMap[idx]=i;eRender();};
     box.appendChild(b);

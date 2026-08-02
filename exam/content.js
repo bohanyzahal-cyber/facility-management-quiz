@@ -1,5 +1,161 @@
 {sections:[
 
+/* ══════════════════════════════════════ 13 · מילון · מספרים */
+{name:"מילון ומספרים", color:"#444c55", sub:"ראשי תיבות · כל הנתונים במקום אחד", cols:2, blocks:[
+
+{h2:"ראשי תיבות"},
+{tbl:{rows:[
+["FM","Facility Management. הגדרת רשימת המושגים: **integration of processes within an organization to maintain and develop the agreed services** that support and improve the effectiveness of its primary processes"],
+["IFM","**Integrated** FM — set of facility services that interact with each other. אחת מ-⟨3⟩ צורות ההפעלה"],
+["Co-sourcing","= Hybrid / Bundling Service — **שילוב insourcing ו-outsourcing**"],
+["BASELINE","אוסף מדדים הקובע **נקודת התחלה**. יחידות המדידה חייבות להיות מוגדרות כתקפות __לפני__ איסוף הנתונים"],
+["BENCHMARKING","השוואה מול **industry best practices**. __לא להתבלבל עם BASELINE__"],
+["BIM","Building Information Modeling — מודל דיגיטלי תלת-ממדי לתכנון וסימולציה, שהמידע בו יקר ערך לתפעול ולאחזקה"],
+["BMS","Building Management System — בקרת מבנה"],
+["LCC","Life Cycle Cost — כל העלויות **בערך נוכחי**: תכנון, עיצוב, בנייה, תפעול ואחזקה. כלל: כל ניתוח כלכלי מתבסס על עלויות מחזור חיים"],
+["ROI","Return On Investment — סך הרווח חלקי הסכום שהושקע"],
+["NPV","Net Present Value — ערך נוכחי של תזרימי מזומנים עתידיים **בניכוי ההשקעה נטו**"],
+["SOW","Scope Of Work — תכולת העבודה"],
+["SLA","Service Level Agreement — מדדים, יעד לכל מדד, **ושיטת המדידה**"],
+["SOP","Standard Operating Procedure — הסטנדרט שלפיו עובדים"],
+["KPI","Key Performance Indicator — מדד ביצוע עיקרי"],
+["Helpdesk","נקודת מגע לבקשת מידע ולמענה — __«it does not have to be a physical location, but can»__"],
+["Space Management","התהליך שבו נעשה **השימוש הטוב ביותר** בשטח הזמין בהתאמה לצרכים"],
+["Cost Center","יחידה ארגונית שבה נעשה שימוש במימון תקציבי לקיום הפעילות"],
+["Depreciation","הוצאה משוערת המבטאת ירידת ערך נכס עם חלוף הזמן. __ברשימת המושגים: ⟨4⟩ שיטות פחת__"],
+["Base level services","השירותים הנדרשים כדי **לתמוך באכלוס** המתקן"],
+["Access control","נוהלי ואמצעי הגנה פיזיים (מחסומים, תאורה) לשליטה בגישה למתקן"],
+["CORE BUSINESS","Business strategy, objectives, plan and primary processes"],
+["NON CORE","Business primary activities, support services, sustainable space, infrastructure"],
+["ILS","Integrated Logistics Support — שילוב כל הגורמים **משלב הייזום**"],
+["GMP","Good Manufacturing Processes — מגדיר אזורי ליבה תחת רגולציה מחייבת (מול NON-GMP)"],
+["PPE","Personal Protective Equipment — ציוד מגן אישי (נמנה תחת SOFT)"],
+["OSHA","Occupational Safety and Health Administration — של משרד העבודה האמריקאי"],
+["ODS","On Demand Service — ביצוע לפי צורך בפועל במקום תדירות קבועה"],
+["ESG","Environmental, Social, Governance"],
+["LEED","Leadership in Energy and Environmental Design"],
+["BOT / PFI / PPP","Build-Operate-Transfer · Private Finance Initiative · Public Private Partnership"],
+["RFP / RFQ / RFI","Request For Proposal / Quotation / Information — «תיחור»"],
+["SRM","Supplier Relationship Management"],
+["QBR","Quarterly Business Review — מפגש ספק-לקוח רבעוני"],
+["MTBF / MTTR","Mean Time **Between Failures** / Mean Time **To Repair**"],
+["QA / QC","Quality **Assurance** (מניעה לאורך התהליך) / Quality **Control** (בדיקה מדגמית בסוף)"],
+["LRP / AOP / LBE","Long Range Plan / Annual Operation Planning / **Last Best Estimation**"],
+["EPS / EBITDA","Earnings Per Share / רווח לפני ריבית, מס, פחת והפחתות"],
+["CAPEX","Capital Expenditure — השקעות ברכוש קבוע (מול EXPENSE — הוצאות הפעלה)"],
+["GDP","Good Distribution Process — ולידציה ותיעוד רצוף בהובלה"],
+["MICE","Meetings, Incentives, Conferences, Events — כנסים ואירועים"],
+["IoT","Internet of Things — חיישנים המחוברים לענן"]
+]}},
+
+{h2:"כל המספרים"},
+{h3:"מבנה עלויות ורווחיות"},
+{tbl:{rows:[
+["⟨70%⟩–⟨80%⟩","כוח אדם בהוצאות FM בעולם (⟨10%⟩–⟨20%⟩ חומרים, ⟨5%⟩–⟨10%⟩ רגולציה). בהרצאה: **⟨80%⟩–⟨90%⟩ שכר**"],
+["⟨4%⟩ / ⟨5%⟩","רווחיות חברת FM טובה / מצטיינת"],
+["⟨1%⟩–⟨2%⟩","רווח חברת ליסינג על התחזוקה (הרווח האמיתי — בהפרש קנייה-מכירה)"],
+["⟨50%⟩–⟨60%⟩","חלקו של הרכש מהמחזור"],
+["⟨600⟩ מיליון $","היקף ה-FM שניהל בטבע"],
+["⟨30%⟩–⟨35%⟩","חיסכון שמחלקות תשתיות השיגו בלי לפגוע בשירות (Cotts)"]
+]}},
+{h3:"ספים, זמנים ותקופות"},
+{tbl:{rows:[
+["⟨140⟩ אלף ₪","סף המחייב מכרז — חוק חובת המכרזים"],
+["⟨60%⟩–⟨70%⟩","משקל הנושא הכספי בטבלת השקלול"],
+["⟨3⟩–⟨5⟩ שנים","תקופת התקשרות מקובלת (לרוב ⟨3⟩ + ⟨2⟩ אופציות של שנה)"],
+["⟨4⟩–⟨5⟩ שנים","תדירות תיחור מחדש"],
+["חודש–⟨3⟩ חודשים","תקופת מעבר בהחלפת ספק שירותים"],
+["⟨60⟩–⟨90⟩ יום","הודעה מוקדמת ליציאה מהסכם"],
+["⟨90⟩ / ⟨180⟩ יום","הודעה מראש על הארכת הסכם"],
+["⟨25⟩ שנה","החזר השקעה במודל BOT"],
+["⟨3⟩–⟨5⟩ שנים","ROI שיאושר בפועל (⟨5⟩–⟨8⟩ במקראה; סולארי ≈ ⟨12⟩ — לא יאושר)"],
+["שוטף+⟨90⟩/⟨105⟩/⟨120⟩","תנאי תשלום בשוק. ⟨5⟩ חודשים בריבית ⟨6.5%⟩–⟨8%⟩ ≈ **⟨4%⟩ — כל הרווח**"],
+["⟨180⟩ יום","להשלמת רישיון עסק לאחר פתיחה בהודעה (תיקון ⟨34⟩)"]
+]}},
+{h3:"ניקיון, ביטחון וכוח אדם"},
+{tbl:{rows:[
+["⟨1,000⟩ / ⟨2,000⟩ מ״ר","תפוקת עובד ניקיון ליום — ציבורי / פרימיום"],
+["⟨15%⟩","תוספת כוח אדם שהספק מחזיק (⟨12.5%⟩ מהשנה נעדרים)"],
+["⟨10%⟩","מהעובדים בביקורת שנתית — חוק הגברת האכיפה (⟨2012⟩)"],
+["⟨8⟩ חודשים","עד לקליטת עובד קבלן כעובד החברה"],
+["⟨39.5⟩ / ⟨36⟩ ₪","שכר עובד ניקיון בצו הרחבה / שכר מינימום"],
+["⟨60⟩ שעות","תקרת שעות נוספות בחודש — חריגה = עבירה פלילית"],
+["⟨30%⟩","חיסכון במעבר ל-on demand"],
+["⟨45⟩ אלף","מחסור בעובדי ניקיון בישראל"],
+["⟨7,600⟩","מתים בשנה מזיהומים בבתי חולים (מול ⟨400⟩–⟨500⟩ בתאונות דרכים)"],
+["⟨18⟩ / ⟨15⟩–⟨16⟩ / ⟨11⟩–⟨12⟩ אלף ₪","שכר חודשי: טכנאי מיזוג / בעל מקצוע / ללא מקצוע"],
+["⟨40%⟩ / ⟨30%⟩","עליית שכר בעלי מקצוע ב-⟨4⟩ שנים / שיעור החותמים שאינם מתייצבים"],
+["⟨4⟩ דקות","זמן הגעה שאליו מתחייבת אבטחה נעה"]
+]}},
+{h3:"נדל״ן, אחזקה והסעדה"},
+{tbl:{rows:[
+["⟨16⟩ מ״ר","שטח משרדים לעובד ברוטו (⟨100⟩ עובדים ≈ ⟨1,600⟩ מ״ר)"],
+["⟨36⟩ מ״ר","מודול תכנון משרדים"],
+["⟨5%⟩","קרקע בבעלות פרטית בישראל; היתר בחכירה ⟨49⟩/⟨98⟩ שנה"],
+["⟨6⟩ אטמוספרות","הלחץ שהעירייה מחויבת לספק; מפחיתי לחץ כל ⟨10⟩ קומות"],
+["⟨21⟩–⟨24⟩ / ⟨28⟩ ₪ למ״ר","דמי ניהול בלי בריכה / עם בריכה. קונספט המתחמים: ⟨8⟩ ₪"],
+["⟨3%⟩–⟨5%⟩","מדמי הניהול לקרן פחת בבנייני מגורים"],
+["⟨6⟩–⟨7⟩ / ⟨15⟩ / ⟨25⟩ שנה","מעליות: כבלים / שיפוץ / שיקום כללי. מצברי UPS: ⟨4⟩–⟨5⟩ שנים"],
+["⟨8⟩ / ⟨5⟩ / ⟨50⟩ שנה","פחת: רכב / מחשבים / בניין. __בסיכום הקורס נרשם בניין ⟨25⟩ שנה ומחשבים ⟨5⟩–⟨6⟩ — אם תישאלו, שני המספרים הופיעו__"],
+["⟨49⟩+ ⟨59⟩+ ⟨79⟩+ ⟨80⟩+","דירוג LEED: מאושר / כסף / זהב / פלטינום"],
+["⟨5,000⟩ / ⟨1,000⟩ מ״ר","סף תקן בנייה ירוקה (⟨2022⟩): רב-קומות / בית חולים וגן ילדים"],
+["⟨85%⟩","מדד ההסעדה — אוכלים בפועל מול הפוטנציאל"],
+["⟨250⟩ עובדים","סף כדאיות להסעדה בקבלן"],
+["⟨2.48%⟩","שווי שימוש ברכב חברה"],
+["⟨100,000⟩ ק״מ / ⟨3⟩–⟨5⟩ שנים","מדיניות החלפת רכב ליסינג. ⟨14⟩ יום אספקה; ⟨15%⟩ החזרה ללא קנס"],
+["⟨1⟩:⟨100⟩ / ⟨1⟩:⟨300⟩","מנהל צי רכב לכלי רכב / קצין בטיחות נוסף"],
+["⟨200⟩–⟨250⟩ מטר / חצי שעה","נוהל הסעות: הליכה לתחנה / שהייה ברכב"]
+]}}
+
+]},
+
+/* ══════════════════════════════════════════════ 12 · ביבליוגרפיה */
+{name:"ביבליוגרפיה", color:"#3d5a80", sub:"Cotts · Atkin & Brooks (פרקים 1-2)", cols:2, blocks:[
+
+{h2:"Cotts — The Facility Management Handbook"},
+{items:[
+"**ההגדרה** :: «the practice of __coordinating the physical workplace with the people and work__ of the organization; integrates the principles of business administration, architecture, and the behavioral and engineering sciences».",
+"**שלוש הטבעות המשתלבות** :: **Purpose** (העבודה) · **Place** (המתקנים) · **People** (האנשים) — __ושטח החפיפה מייצג את האופי האינטגרטיבי__ של ניהול התשתיות. פותח על ידי ה-Facility Management Institute.",
+"**היסטוריה** :: **FMI** נוסד ב-⟨1979⟩ באן ארבור, מישיגן. בסמינר מוקדם שלו ייסדו כ-⟨40⟩ מנהלי תשתיות את **NFMA** (⟨1980⟩), שהפך בעקבות התעניינות קנדית ל-**IFMA** (International).",
+"**סקר IFMA (⟨252⟩ מנהלים בכירים)** :: ⟨60%⟩ ראו בתשתיות __«עלות של עשיית עסקים המאפשרת לארגון לתפקד»__; ⟨37%⟩ ראו בהן __«משאב שיכול לספק יתרון תחרותי»__. תשעה מכל עשרה סברו שכישורי **ניהול פיננסי וניהול פרויקטים** הם החשובים ביותר.",
+"**מקום התשתיות בהוצאה** :: __«After payroll, facilities are usually the greatest component of a company's administrative expense»__. ומנגד: מחלקות תשתיות חסכו או מנעו עלויות בטווח ⟨30%⟩–⟨35%⟩ __ללא פגיעה בשירותים__ — בתכנון נכון, ניהול חכירות וניהול אנרגיה.",
+"**FM as a continuum** :: __«FM is a continuum, from planning through disposal. It is not a series of discrete projects»__ — רצף לאורך כל מחזור החיים.",
+"**מי מגדיר שירות טוב** :: __הלקוח, והלקוח בלבד__. «The facility manager's responsibility is to find out how his customer rates his services»."
+]},
+{h3:"Major Themes אצל Cotts"},
+{items:["**הרשימה** :: cost of ownership · life-cycle costing · integration of services · **design for operations and maintenance** · delegated responsibility · cost-effectiveness · efficiency improvement · quality of life · integration of elements · **redundancy and flexibility** · facilities as assets · FM as a business function · **FM as a continuum** · service."]},
+
+{h2:"Atkin & Brooks — Total Facility Management"},
+{items:[
+"**ההגדרה** :: __«an integrated approach to operating, maintaining, improving and adapting the buildings and infrastructure of an organization in order to create an environment that strongly supports the primary objectives of that organization»__.",
+"**מקור התחום** :: בארה״ב במאה ה-⟨19⟩ — __חברות הרכבות האמריקאיות__ סברו שעדיף לספק את __התועלת__ של המתקנים ולא רק מבנים. התחום התפתח לאורך כ-⟨150⟩ שנה.",
+"**אין גישה אוניברסלית** :: __«There is no universal approach to managing facilities»__ — לכל ארגון צרכים שונים, והבנתם היא המפתח.",
+"**היקף התחום** :: ניהול נדל״ן · ניהול פיננסי · משאבי אנוש · **HSSE** (health, safety, security, environment) · ניהול שינוי · ניהול חוזים — __בנוסף__ לאחזקה, לשירותים (ניקיון והסעדה) ולאספקת utilities.",
+"**כשירות ליבתית של מנהל תשתיות** :: __שילוב ידע במתקן עם הבנת ארגונים, אנשים ותהליכים__. «הבנה כיצד לתכנן מתקן אינה זהה להבטחה שיהיה בטוח ומאובטח בהפעלה» — מתכנן מוכשר אינו בהכרח מנהל תשתיות טוב.",
+"**ניהול נדל״ן** :: מסורתית שם ישבה האחריות לשירותי המתקנים; עם התפתחות ה-FM כדיסציפלינה נפרדת — בארגונים __ללא עניין מוקדם בנדל״ן__ האחריות עליו הפכה לחלק מה-FM."
+]},
+{h3:"The Informed Client Function"},
+{items:[
+"**מהו** :: הארגון חייב לפעול כ__לקוח מיודע__ כדי להשיג end-user satisfaction ו-best value — __«a requisite irrespective of how services are procured»__ (בלי קשר לאופן שבו נרכשים השירותים).",
+"**מה כולל** :: הבנת הארגון, תרבותו ומשתמשי הקצה · אפיון דרישות ויעדים · ניהול יישום המיקור החוץ · צמצום אי-ודאות וסיכונים בניהול יזום · הסכמה על סטנדרטים לבקרה · ניהול ספקים ומדידת ביצועים · benchmarking וסקרי שביעות רצון · __תיווך מול בעלי העניין וביניהם לבין עצמם__."
+]},
+{h3:"Value for money מול Best value"},
+{items:["**value for money** :: היחס בין עלות לאיכות/ביצועים.",
+"**best value** :: מרחיב — __חתירה מתמדת למשהו superior בעלות הנמוכה ביותר המעשית__. וההדגשה: __יש לבחון לא את התוצאה אלא את תהליך קבלת ההחלטות וההנחות שבבסיסו__. החלטת best value מצוטטת בדרך כלל כמכריעה האם למקר חוץ שירות."]},
+{h3:"Operability — תכנון לתפעוליות"},
+{items:["**העיקרון** :: __«Once the facility is operational, it is too late to take issue with the fitness for purpose of the design»__.",
+"**מול constructability** :: constructability __מיושם באופן נרחב__ על ידי מתכננים; **design for operability אינו זוכה לאותה הכרה** — והתעלמות ממנו פוגעת ביעילות התפעולית ובביצועי האנרגיה.",
+"**Briefing** :: __«the process for engaging the organization in a structured discussion about the functions and other characteristics it requires in a facility»__ — הבסיס להבטחת operability.",
+"**Embodied carbon** :: הפחמן __גלום בייצור הרכיבים והחומרים ובבנייה או בשיפוץ עצמם__ — ולא רק בהפעלה השוטפת. מבנה יפעל עשרות שנים בסביבה שבה הלחץ לצמצם פליטות יגבר, ולכן נדרשת ראייה ארוכת טווח של ה-operability."]},
+{h3:"מודל התהליך (פרק 1)"},
+{items:["**⟨5⟩ השלבים** :: פיתוח **אסטרטגיית FM** (ניתוח אסטרטגי, פיתוח פתרון, יישום) ← קביעת **מודל הסורסינג** (Insource / Outsource / **Co-source**) ← **רכש שירותים** (מיון מוקדם, RFP/מכרז, הגשת הצעות) ← **אספקת השירותים** (התארגנות, מעבר, ניהול חוזה) ← **ניהול ביצועים** (סקירת שירות, מדידה, benchmarking)."]},
+{h3:"פרק 2 — Facility Planning"},
+{items:["**Sustainable space provision** :: __האיזון בין מה שהארגון צריך לבין מה שהוא יכול להרשות לעצמו__ מבחינת שטח. יעילות השטח יכולה להיות גורם מפתח בהצלחת הארגון.",
+"**סיכוני מפרט** :: מפרטים __overly prescriptive__ ו/או המתמקדים ב__פרוצדורות ולא בתפוקות (outputs)__ · **gold plating** — הצפת דרישות מעבר לנדרש · ניטור מוגזם של ביצועי הספק · היעדר מנגנוני תמריץ · הקצאה לא נכונה של סיכונים ותגמולים · הגדרה לקויה של היקף השירותים · אי-התחשבות בכלל בעלי העניין.",
+"**שיתוף פעולה בין ארגונים** :: מעבר ליתרון לגודל (הדוגמה המובהקת — רכישה מרוכזת של אנרגיה וחשמל) — גם __חלוקת הסיכונים בין המשתתפים__."]}
+
+]},
+
 /* ═══════════════════════════════════════════════════ 1 · מבוא ויסודות */
 {name:"יסודות", color:"#1a5fb4", sub:"הגדרות · מודלים · מגמות", cols:2, blocks:[
 
@@ -906,162 +1062,6 @@
 "**מכירה יזומה** :: הסכמי ניהול ניתנים לסיום תוך __חודש עד שלושה__ — «הבעלים יחליט להחליף חברה, או שהיזם יחליט». לכן מערך פיתוח עסקי תחת סמנכ״ל, עם יעדים יומיים לפניות ולפגישות ששכר העובדים נגזר מהם.",
 "**AI במטה** :: __התאמת עשרות חשבונות בנק__ — כשעתיים ביום שנחסכו. «אני לא מפתח — אני משתמש במה שאחרים פיתחו». ועיקרון משלים: __בוחרים כשלושה נושאים בשנה__ ומטפלים בהם לעומק, «כי אני יודע שבהם אצליח», במקום לפזר מאמץ."
 ]}
-
-]},
-
-/* ══════════════════════════════════════════════ 12 · ביבליוגרפיה */
-{name:"ביבליוגרפיה", color:"#3d5a80", sub:"Cotts · Atkin & Brooks (פרקים 1-2)", cols:2, blocks:[
-
-{h2:"Cotts — The Facility Management Handbook"},
-{items:[
-"**ההגדרה** :: «the practice of __coordinating the physical workplace with the people and work__ of the organization; integrates the principles of business administration, architecture, and the behavioral and engineering sciences».",
-"**שלוש הטבעות המשתלבות** :: **Purpose** (העבודה) · **Place** (המתקנים) · **People** (האנשים) — __ושטח החפיפה מייצג את האופי האינטגרטיבי__ של ניהול התשתיות. פותח על ידי ה-Facility Management Institute.",
-"**היסטוריה** :: **FMI** נוסד ב-⟨1979⟩ באן ארבור, מישיגן. בסמינר מוקדם שלו ייסדו כ-⟨40⟩ מנהלי תשתיות את **NFMA** (⟨1980⟩), שהפך בעקבות התעניינות קנדית ל-**IFMA** (International).",
-"**סקר IFMA (⟨252⟩ מנהלים בכירים)** :: ⟨60%⟩ ראו בתשתיות __«עלות של עשיית עסקים המאפשרת לארגון לתפקד»__; ⟨37%⟩ ראו בהן __«משאב שיכול לספק יתרון תחרותי»__. תשעה מכל עשרה סברו שכישורי **ניהול פיננסי וניהול פרויקטים** הם החשובים ביותר.",
-"**מקום התשתיות בהוצאה** :: __«After payroll, facilities are usually the greatest component of a company's administrative expense»__. ומנגד: מחלקות תשתיות חסכו או מנעו עלויות בטווח ⟨30%⟩–⟨35%⟩ __ללא פגיעה בשירותים__ — בתכנון נכון, ניהול חכירות וניהול אנרגיה.",
-"**FM as a continuum** :: __«FM is a continuum, from planning through disposal. It is not a series of discrete projects»__ — רצף לאורך כל מחזור החיים.",
-"**מי מגדיר שירות טוב** :: __הלקוח, והלקוח בלבד__. «The facility manager's responsibility is to find out how his customer rates his services»."
-]},
-{h3:"Major Themes אצל Cotts"},
-{items:["**הרשימה** :: cost of ownership · life-cycle costing · integration of services · **design for operations and maintenance** · delegated responsibility · cost-effectiveness · efficiency improvement · quality of life · integration of elements · **redundancy and flexibility** · facilities as assets · FM as a business function · **FM as a continuum** · service."]},
-
-{h2:"Atkin & Brooks — Total Facility Management"},
-{items:[
-"**ההגדרה** :: __«an integrated approach to operating, maintaining, improving and adapting the buildings and infrastructure of an organization in order to create an environment that strongly supports the primary objectives of that organization»__.",
-"**מקור התחום** :: בארה״ב במאה ה-⟨19⟩ — __חברות הרכבות האמריקאיות__ סברו שעדיף לספק את __התועלת__ של המתקנים ולא רק מבנים. התחום התפתח לאורך כ-⟨150⟩ שנה.",
-"**אין גישה אוניברסלית** :: __«There is no universal approach to managing facilities»__ — לכל ארגון צרכים שונים, והבנתם היא המפתח.",
-"**היקף התחום** :: ניהול נדל״ן · ניהול פיננסי · משאבי אנוש · **HSSE** (health, safety, security, environment) · ניהול שינוי · ניהול חוזים — __בנוסף__ לאחזקה, לשירותים (ניקיון והסעדה) ולאספקת utilities.",
-"**כשירות ליבתית של מנהל תשתיות** :: __שילוב ידע במתקן עם הבנת ארגונים, אנשים ותהליכים__. «הבנה כיצד לתכנן מתקן אינה זהה להבטחה שיהיה בטוח ומאובטח בהפעלה» — מתכנן מוכשר אינו בהכרח מנהל תשתיות טוב.",
-"**ניהול נדל״ן** :: מסורתית שם ישבה האחריות לשירותי המתקנים; עם התפתחות ה-FM כדיסציפלינה נפרדת — בארגונים __ללא עניין מוקדם בנדל״ן__ האחריות עליו הפכה לחלק מה-FM."
-]},
-{h3:"The Informed Client Function"},
-{items:[
-"**מהו** :: הארגון חייב לפעול כ__לקוח מיודע__ כדי להשיג end-user satisfaction ו-best value — __«a requisite irrespective of how services are procured»__ (בלי קשר לאופן שבו נרכשים השירותים).",
-"**מה כולל** :: הבנת הארגון, תרבותו ומשתמשי הקצה · אפיון דרישות ויעדים · ניהול יישום המיקור החוץ · צמצום אי-ודאות וסיכונים בניהול יזום · הסכמה על סטנדרטים לבקרה · ניהול ספקים ומדידת ביצועים · benchmarking וסקרי שביעות רצון · __תיווך מול בעלי העניין וביניהם לבין עצמם__."
-]},
-{h3:"Value for money מול Best value"},
-{items:["**value for money** :: היחס בין עלות לאיכות/ביצועים.",
-"**best value** :: מרחיב — __חתירה מתמדת למשהו superior בעלות הנמוכה ביותר המעשית__. וההדגשה: __יש לבחון לא את התוצאה אלא את תהליך קבלת ההחלטות וההנחות שבבסיסו__. החלטת best value מצוטטת בדרך כלל כמכריעה האם למקר חוץ שירות."]},
-{h3:"Operability — תכנון לתפעוליות"},
-{items:["**העיקרון** :: __«Once the facility is operational, it is too late to take issue with the fitness for purpose of the design»__.",
-"**מול constructability** :: constructability __מיושם באופן נרחב__ על ידי מתכננים; **design for operability אינו זוכה לאותה הכרה** — והתעלמות ממנו פוגעת ביעילות התפעולית ובביצועי האנרגיה.",
-"**Briefing** :: __«the process for engaging the organization in a structured discussion about the functions and other characteristics it requires in a facility»__ — הבסיס להבטחת operability.",
-"**Embodied carbon** :: הפחמן __גלום בייצור הרכיבים והחומרים ובבנייה או בשיפוץ עצמם__ — ולא רק בהפעלה השוטפת. מבנה יפעל עשרות שנים בסביבה שבה הלחץ לצמצם פליטות יגבר, ולכן נדרשת ראייה ארוכת טווח של ה-operability."]},
-{h3:"מודל התהליך (פרק 1)"},
-{items:["**⟨5⟩ השלבים** :: פיתוח **אסטרטגיית FM** (ניתוח אסטרטגי, פיתוח פתרון, יישום) ← קביעת **מודל הסורסינג** (Insource / Outsource / **Co-source**) ← **רכש שירותים** (מיון מוקדם, RFP/מכרז, הגשת הצעות) ← **אספקת השירותים** (התארגנות, מעבר, ניהול חוזה) ← **ניהול ביצועים** (סקירת שירות, מדידה, benchmarking)."]},
-{h3:"פרק 2 — Facility Planning"},
-{items:["**Sustainable space provision** :: __האיזון בין מה שהארגון צריך לבין מה שהוא יכול להרשות לעצמו__ מבחינת שטח. יעילות השטח יכולה להיות גורם מפתח בהצלחת הארגון.",
-"**סיכוני מפרט** :: מפרטים __overly prescriptive__ ו/או המתמקדים ב__פרוצדורות ולא בתפוקות (outputs)__ · **gold plating** — הצפת דרישות מעבר לנדרש · ניטור מוגזם של ביצועי הספק · היעדר מנגנוני תמריץ · הקצאה לא נכונה של סיכונים ותגמולים · הגדרה לקויה של היקף השירותים · אי-התחשבות בכלל בעלי העניין.",
-"**שיתוף פעולה בין ארגונים** :: מעבר ליתרון לגודל (הדוגמה המובהקת — רכישה מרוכזת של אנרגיה וחשמל) — גם __חלוקת הסיכונים בין המשתתפים__."]}
-
-]},
-
-/* ══════════════════════════════════════ 13 · מילון · מספרים */
-{name:"מילון ומספרים", color:"#444c55", sub:"ראשי תיבות · כל הנתונים במקום אחד", cols:2, blocks:[
-
-{h2:"ראשי תיבות"},
-{tbl:{rows:[
-["FM","Facility Management. הגדרת רשימת המושגים: **integration of processes within an organization to maintain and develop the agreed services** that support and improve the effectiveness of its primary processes"],
-["IFM","**Integrated** FM — set of facility services that interact with each other. אחת מ-⟨3⟩ צורות ההפעלה"],
-["Co-sourcing","= Hybrid / Bundling Service — **שילוב insourcing ו-outsourcing**"],
-["BASELINE","אוסף מדדים הקובע **נקודת התחלה**. יחידות המדידה חייבות להיות מוגדרות כתקפות __לפני__ איסוף הנתונים"],
-["BENCHMARKING","השוואה מול **industry best practices**. __לא להתבלבל עם BASELINE__"],
-["BIM","Building Information Modeling — מודל דיגיטלי תלת-ממדי לתכנון וסימולציה, שהמידע בו יקר ערך לתפעול ולאחזקה"],
-["BMS","Building Management System — בקרת מבנה"],
-["LCC","Life Cycle Cost — כל העלויות **בערך נוכחי**: תכנון, עיצוב, בנייה, תפעול ואחזקה. כלל: כל ניתוח כלכלי מתבסס על עלויות מחזור חיים"],
-["ROI","Return On Investment — סך הרווח חלקי הסכום שהושקע"],
-["NPV","Net Present Value — ערך נוכחי של תזרימי מזומנים עתידיים **בניכוי ההשקעה נטו**"],
-["SOW","Scope Of Work — תכולת העבודה"],
-["SLA","Service Level Agreement — מדדים, יעד לכל מדד, **ושיטת המדידה**"],
-["SOP","Standard Operating Procedure — הסטנדרט שלפיו עובדים"],
-["KPI","Key Performance Indicator — מדד ביצוע עיקרי"],
-["Helpdesk","נקודת מגע לבקשת מידע ולמענה — __«it does not have to be a physical location, but can»__"],
-["Space Management","התהליך שבו נעשה **השימוש הטוב ביותר** בשטח הזמין בהתאמה לצרכים"],
-["Cost Center","יחידה ארגונית שבה נעשה שימוש במימון תקציבי לקיום הפעילות"],
-["Depreciation","הוצאה משוערת המבטאת ירידת ערך נכס עם חלוף הזמן. __ברשימת המושגים: ⟨4⟩ שיטות פחת__"],
-["Base level services","השירותים הנדרשים כדי **לתמוך באכלוס** המתקן"],
-["Access control","נוהלי ואמצעי הגנה פיזיים (מחסומים, תאורה) לשליטה בגישה למתקן"],
-["CORE BUSINESS","Business strategy, objectives, plan and primary processes"],
-["NON CORE","Business primary activities, support services, sustainable space, infrastructure"],
-["ILS","Integrated Logistics Support — שילוב כל הגורמים **משלב הייזום**"],
-["GMP","Good Manufacturing Processes — מגדיר אזורי ליבה תחת רגולציה מחייבת (מול NON-GMP)"],
-["PPE","Personal Protective Equipment — ציוד מגן אישי (נמנה תחת SOFT)"],
-["OSHA","Occupational Safety and Health Administration — של משרד העבודה האמריקאי"],
-["ODS","On Demand Service — ביצוע לפי צורך בפועל במקום תדירות קבועה"],
-["ESG","Environmental, Social, Governance"],
-["LEED","Leadership in Energy and Environmental Design"],
-["BOT / PFI / PPP","Build-Operate-Transfer · Private Finance Initiative · Public Private Partnership"],
-["RFP / RFQ / RFI","Request For Proposal / Quotation / Information — «תיחור»"],
-["SRM","Supplier Relationship Management"],
-["QBR","Quarterly Business Review — מפגש ספק-לקוח רבעוני"],
-["MTBF / MTTR","Mean Time **Between Failures** / Mean Time **To Repair**"],
-["QA / QC","Quality **Assurance** (מניעה לאורך התהליך) / Quality **Control** (בדיקה מדגמית בסוף)"],
-["LRP / AOP / LBE","Long Range Plan / Annual Operation Planning / **Last Best Estimation**"],
-["EPS / EBITDA","Earnings Per Share / רווח לפני ריבית, מס, פחת והפחתות"],
-["CAPEX","Capital Expenditure — השקעות ברכוש קבוע (מול EXPENSE — הוצאות הפעלה)"],
-["GDP","Good Distribution Process — ולידציה ותיעוד רצוף בהובלה"],
-["MICE","Meetings, Incentives, Conferences, Events — כנסים ואירועים"],
-["IoT","Internet of Things — חיישנים המחוברים לענן"]
-]}},
-
-{h2:"כל המספרים"},
-{h3:"מבנה עלויות ורווחיות"},
-{tbl:{rows:[
-["⟨70%⟩–⟨80%⟩","כוח אדם בהוצאות FM בעולם (⟨10%⟩–⟨20%⟩ חומרים, ⟨5%⟩–⟨10%⟩ רגולציה). בהרצאה: **⟨80%⟩–⟨90%⟩ שכר**"],
-["⟨4%⟩ / ⟨5%⟩","רווחיות חברת FM טובה / מצטיינת"],
-["⟨1%⟩–⟨2%⟩","רווח חברת ליסינג על התחזוקה (הרווח האמיתי — בהפרש קנייה-מכירה)"],
-["⟨50%⟩–⟨60%⟩","חלקו של הרכש מהמחזור"],
-["⟨600⟩ מיליון $","היקף ה-FM שניהל בטבע"],
-["⟨30%⟩–⟨35%⟩","חיסכון שמחלקות תשתיות השיגו בלי לפגוע בשירות (Cotts)"]
-]}},
-{h3:"ספים, זמנים ותקופות"},
-{tbl:{rows:[
-["⟨140⟩ אלף ₪","סף המחייב מכרז — חוק חובת המכרזים"],
-["⟨60%⟩–⟨70%⟩","משקל הנושא הכספי בטבלת השקלול"],
-["⟨3⟩–⟨5⟩ שנים","תקופת התקשרות מקובלת (לרוב ⟨3⟩ + ⟨2⟩ אופציות של שנה)"],
-["⟨4⟩–⟨5⟩ שנים","תדירות תיחור מחדש"],
-["חודש–⟨3⟩ חודשים","תקופת מעבר בהחלפת ספק שירותים"],
-["⟨60⟩–⟨90⟩ יום","הודעה מוקדמת ליציאה מהסכם"],
-["⟨90⟩ / ⟨180⟩ יום","הודעה מראש על הארכת הסכם"],
-["⟨25⟩ שנה","החזר השקעה במודל BOT"],
-["⟨3⟩–⟨5⟩ שנים","ROI שיאושר בפועל (⟨5⟩–⟨8⟩ במקראה; סולארי ≈ ⟨12⟩ — לא יאושר)"],
-["שוטף+⟨90⟩/⟨105⟩/⟨120⟩","תנאי תשלום בשוק. ⟨5⟩ חודשים בריבית ⟨6.5%⟩–⟨8%⟩ ≈ **⟨4%⟩ — כל הרווח**"],
-["⟨180⟩ יום","להשלמת רישיון עסק לאחר פתיחה בהודעה (תיקון ⟨34⟩)"]
-]}},
-{h3:"ניקיון, ביטחון וכוח אדם"},
-{tbl:{rows:[
-["⟨1,000⟩ / ⟨2,000⟩ מ״ר","תפוקת עובד ניקיון ליום — ציבורי / פרימיום"],
-["⟨15%⟩","תוספת כוח אדם שהספק מחזיק (⟨12.5%⟩ מהשנה נעדרים)"],
-["⟨10%⟩","מהעובדים בביקורת שנתית — חוק הגברת האכיפה (⟨2012⟩)"],
-["⟨8⟩ חודשים","עד לקליטת עובד קבלן כעובד החברה"],
-["⟨39.5⟩ / ⟨36⟩ ₪","שכר עובד ניקיון בצו הרחבה / שכר מינימום"],
-["⟨60⟩ שעות","תקרת שעות נוספות בחודש — חריגה = עבירה פלילית"],
-["⟨30%⟩","חיסכון במעבר ל-on demand"],
-["⟨45⟩ אלף","מחסור בעובדי ניקיון בישראל"],
-["⟨7,600⟩","מתים בשנה מזיהומים בבתי חולים (מול ⟨400⟩–⟨500⟩ בתאונות דרכים)"],
-["⟨18⟩ / ⟨15⟩–⟨16⟩ / ⟨11⟩–⟨12⟩ אלף ₪","שכר חודשי: טכנאי מיזוג / בעל מקצוע / ללא מקצוע"],
-["⟨40%⟩ / ⟨30%⟩","עליית שכר בעלי מקצוע ב-⟨4⟩ שנים / שיעור החותמים שאינם מתייצבים"],
-["⟨4⟩ דקות","זמן הגעה שאליו מתחייבת אבטחה נעה"]
-]}},
-{h3:"נדל״ן, אחזקה והסעדה"},
-{tbl:{rows:[
-["⟨16⟩ מ״ר","שטח משרדים לעובד ברוטו (⟨100⟩ עובדים ≈ ⟨1,600⟩ מ״ר)"],
-["⟨36⟩ מ״ר","מודול תכנון משרדים"],
-["⟨5%⟩","קרקע בבעלות פרטית בישראל; היתר בחכירה ⟨49⟩/⟨98⟩ שנה"],
-["⟨6⟩ אטמוספרות","הלחץ שהעירייה מחויבת לספק; מפחיתי לחץ כל ⟨10⟩ קומות"],
-["⟨21⟩–⟨24⟩ / ⟨28⟩ ₪ למ״ר","דמי ניהול בלי בריכה / עם בריכה. קונספט המתחמים: ⟨8⟩ ₪"],
-["⟨3%⟩–⟨5%⟩","מדמי הניהול לקרן פחת בבנייני מגורים"],
-["⟨6⟩–⟨7⟩ / ⟨15⟩ / ⟨25⟩ שנה","מעליות: כבלים / שיפוץ / שיקום כללי. מצברי UPS: ⟨4⟩–⟨5⟩ שנים"],
-["⟨8⟩ / ⟨5⟩ / ⟨50⟩ שנה","פחת: רכב / מחשבים / בניין. __בסיכום הקורס נרשם בניין ⟨25⟩ שנה ומחשבים ⟨5⟩–⟨6⟩ — אם תישאלו, שני המספרים הופיעו__"],
-["⟨49⟩+ ⟨59⟩+ ⟨79⟩+ ⟨80⟩+","דירוג LEED: מאושר / כסף / זהב / פלטינום"],
-["⟨5,000⟩ / ⟨1,000⟩ מ״ר","סף תקן בנייה ירוקה (⟨2022⟩): רב-קומות / בית חולים וגן ילדים"],
-["⟨85%⟩","מדד ההסעדה — אוכלים בפועל מול הפוטנציאל"],
-["⟨250⟩ עובדים","סף כדאיות להסעדה בקבלן"],
-["⟨2.48%⟩","שווי שימוש ברכב חברה"],
-["⟨100,000⟩ ק״מ / ⟨3⟩–⟨5⟩ שנים","מדיניות החלפת רכב ליסינג. ⟨14⟩ יום אספקה; ⟨15%⟩ החזרה ללא קנס"],
-["⟨1⟩:⟨100⟩ / ⟨1⟩:⟨300⟩","מנהל צי רכב לכלי רכב / קצין בטיחות נוסף"],
-["⟨200⟩–⟨250⟩ מטר / חצי שעה","נוהל הסעות: הליכה לתחנה / שהייה ברכב"]
-]}}
 
 ]}
 

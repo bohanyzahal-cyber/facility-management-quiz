@@ -8,6 +8,8 @@
 
 **▶ [חוברת החומר הפתוח](https://bohanyzahal-cyber.github.io/facility-management-quiz/exam.html)** — 36 עמודי A4 להדפסה, עם לשוניות ניווט ומפתח א״ב. המבחן פתוח-חומר, והחוברת בנויה לאיתור מהיר תחת לחץ זמן.
 
+**▶ [פודקאסט](https://bohanyzahal-cyber.github.io/facility-management-quiz/podcast/)** — 13 פרקים, ‎4 שעות, נושא לפרק. שני קולות בפורמט ראיון, ובסוף כל פרק חמש שאלות עם השהייה לחשוב לפני התשובה. נועד לזמן נסיעה, שבו אי אפשר להסתכל בחוברת. ראו [podcast/README.md](podcast/README.md).
+
 ## מה יש כאן
 
 <!-- STATS:START — נוצר אוטומטית על ידי src/build.py, אין לערוך ידנית -->

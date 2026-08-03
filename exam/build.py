@@ -18,8 +18,19 @@ tpl = io.open(os.path.join(HERE, "template.html"), encoding="utf-8").read()
 dat = io.open(os.path.join(HERE, "content.js"),   encoding="utf-8").read()
 
 html = re.sub(r"/\*DATA\*/.*?/\*DATA\*/", lambda m: dat.strip(), tpl, flags=re.S)
-for p in OUT:
-    io.open(os.path.abspath(p), "w", encoding="utf-8").write(html)
+
+
+def for_course_folder(page):
+    """העותק בתיקיית הקורס נמצא רמה אחת מעל fm-quiz, ולכן הקישורים היחסיים
+    לבוחן ולפודקאסט צריכים קידומת. בלי זה הם שבורים."""
+    for href in ('"index.html"', '"podcast/"'):
+        page = page.replace("href=" + href, 'href="fm-quiz/' + href[1:])
+    return page
+
+
+for i, p in enumerate(OUT):
+    page = html if i == 0 else for_course_folder(html)
+    io.open(os.path.abspath(p), "w", encoding="utf-8").write(page)
 
 # ספירה גסה של פריטים, כדי לראות שהתוכן אכן גדל
 items = dat.count(" :: ") + dat.count("],[") + dat.count("], [")

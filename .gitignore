@@ -6,9 +6,14 @@
 *.mp4
 *.wav
 
+# יוצא מן הכלל: פרקי הפודקאסט הם תוצר מקורי שנכתב כאן, לא חומר קורס —
+# ולכן הם כן מתפרסמים. הכלל *.mp3 שלמעלה נועד להקלטות ההרצאות.
+!podcast/mp3/*.mp3
+
 # פלטי ביניים
 __pycache__/
 *.pyc
 transcripts/
 audio/
 exam/preview.html
+podcast/.cache/

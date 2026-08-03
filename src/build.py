@@ -24,8 +24,17 @@ tpl  = open(os.path.join(HERE, "template.html"), encoding="utf-8").read()
 bank = "\n".join(open(f, encoding="utf-8").read() for f in bank_files())
 html = tpl.replace("/*__BANK__*/", bank)
 
+def for_course_folder(page):
+    """העותק שיושב בתיקיית הקורס נמצא ברמה אחת מעל fm-quiz, ולכן הקישורים
+    היחסיים לחוברת ולפודקאסט חייבים לקבל את הקידומת. בלי זה הם שבורים —
+    וזה היה שבור גם קודם, בקישור לחוברת."""
+    for href in ('"exam.html"', '"podcast/"'):
+        page = page.replace("href=" + href, 'href="fm-quiz/' + href[1:])
+    return page
+
 for t in TARGETS:
-    open(t, "w", encoding="utf-8").write(html)
+    page = html if t == TARGETS[0] else for_course_folder(html)
+    open(t, "w", encoding="utf-8").write(page)
     print("נכתב:", t)
 print("גודל: %.0f KB" % (len(html) / 1024))
 

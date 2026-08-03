@@ -37,3 +37,30 @@ items = dat.count(" :: ") + dat.count("],[") + dat.count("], [")
 print("נבנה. %d תווים, ~%d פריטי תוכן." % (len(html), items))
 for p in OUT:
     print("  ", os.path.abspath(p))
+
+
+# מספר העמודים נקבע רק בדפדפן, בזמן טעינה, ולכן הבנייה אינה יכולה לחשב
+# אותו. מה שהיא כן יכולה: להראות מי מצהיר עליו בטקסט קבוע. פעם אחת כבר
+# קרה שהחוברת גדלה ל-38 והקישורים באתר המשיכו להבטיח 36.
+CLAIMS = [
+    ("src/template.html",  r"(\d+) עמודי A4"),
+    ("README.md",          r"(\d+) עמודי A4"),
+    ("podcast/build.py",   r"(\d+) עמודים להדפסה"),
+    ("podcast/index.html", r"(\d+) עמודים להדפסה"),
+]
+found = {}
+for rel, pat in CLAIMS:
+    path = os.path.join(REPO, rel)
+    if not os.path.exists(path):
+        continue
+    for m in re.finditer(pat, io.open(path, encoding="utf-8").read()):
+        found.setdefault(m.group(1), []).append(rel)
+
+if found:
+    print("\nמספר העמודים המוצהר בטקסט קבוע:")
+    for n, files in sorted(found.items()):
+        print("   %s עמודים — %s" % (n, ", ".join(sorted(set(files)))))
+    if len(found) > 1:
+        print("   !! הצהרות סותרות. יש ליישר את כולן.")
+    print("   השוו למחוון שבפינת הדף הבנוי (\"NN עמודים · תקין\");")
+    print("   אם השתנה — עדכנו את הקבצים שלמעלה והריצו מחדש גם את podcast/build.py.")

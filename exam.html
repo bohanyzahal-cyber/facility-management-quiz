@@ -1349,6 +1349,7 @@ pages.forEach(function(p,i){
 var keys=Object.keys(terms).sort(function(a,b){return a.localeCompare(b,'he');});
 var ixSec={name:'מפתח',color:'#3d4650',sub:'לפי א״ב',idx:DATA.sections.length-1};
 /* המפתח מתפרס על פני כמה עמודים בדיוק כמו התוכן — אחרת הוא גולש. */
+var ixFirst=pages.length+2;          /* לשורת התוכן שתתווסף בהמשך */
 var ibd=newPage(ixSec,false), ipg=ibd.parentNode, idx=E('div',{'class':'idx'});
 ibd.appendChild(idx);
 keys.forEach(function(k){
@@ -1362,6 +1363,12 @@ keys.forEach(function(k){
   }
 });
 pages.forEach(function(p,i){var e=p.querySelector('.pgn');if(e)e.innerHTML='עמ׳ <b>'+(i+2)+'</b>';});
+
+/* המפתח נבנה אחרי שהשער כבר נוצר, ולכן שורתו מתווספת לתוכן העניינים רק כאן */
+toc.appendChild(E('a',{href:'#'},
+  '<span class="sw" style="background:'+ixSec.color+'"></span>'+
+  '<span class="nm">מפתח מונחים לפי א״ב</span><span class="dots"></span>'+
+  '<span class="pn">'+ixFirst+'</span>'));
 
 /* הקישור חזרה — שם הקובץ שונה בין הרפו לתיקיית הקורס */
 (function(){

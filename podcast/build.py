@@ -210,7 +210,7 @@ audio{width:100%;height:36px}
 <p class="sub">פרק לכל נושא. בסוף כל פרק — שאלות לדרך עם השהייה לחשוב.</p>
 <div class="nav">
 <a href="../index.html">🎯 <span><b>בוחן התרגול</b> <em>· שאלות אמריקאיות וסימולציית מבחן</em></span></a>
-<a href="../exam.html">📄 <span><b>חוברת החומר הפתוח</b> <em>· 42 עמודים להדפסה</em></span></a>
+<a href="../exam.html">📄 <span><b>חוברת החומר הפתוח</b> <em>· 44 עמודים להדפסה</em></span></a>
 </div>
 """
 

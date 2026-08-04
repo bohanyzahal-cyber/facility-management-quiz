@@ -145,7 +145,13 @@ function block(b){
   var dl=E('dl');
   b.items.forEach(function(it){
     var d=E('div'), p=String(it).split(' :: ');
-    d.appendChild(E('dt',{},rt(p[0])));
+    /* ⟦כינוי · כינוי⟧ בכותרת — לא מוצג, אך נכנס למפתח הא״ב. נועד לכותרות
+       שנוסחו כשאלה ("מה נכלל") ואי אפשר לחפש אותן לפי מונח. */
+    var head=p[0], alias='', ma=head.match(/⟦([^⟧]*)⟧/);
+    if(ma){ alias=ma[1]; head=head.replace(/\s*⟦[^⟧]*⟧/,''); }
+    var dt=E('dt',{},rt(head));
+    if(alias) dt.setAttribute('data-idx',alias);
+    d.appendChild(dt);
     d.appendChild(E('dd',{},rt(p.slice(1).join(' :: '))));
     dl.appendChild(d);
   });
@@ -246,8 +252,16 @@ var terms={};
 pages.forEach(function(p,i){
   p.querySelectorAll('dt').forEach(function(d){
     var t=d.textContent.replace(/^▪\s*/,'').replace(/\s*—\s*$/,'').trim();
-    if(t.length<2||t.length>44)return;
-    (terms[t]=terms[t]||[]).push(i+2);
+    var al=d.getAttribute('data-idx');
+    /* יש כינויים — הם מחליפים את הכותרת במפתח ולא מתווספים אליה. הכותרת
+       שקיבלה כינוי היא בדיוק זו שאי אפשר לחפש לפיה ("מהו", "מה נכלל"),
+       ואם תישאר היא רק תרעיש. מה שכן שווה לשמר נכתב בתוך הכינויים. */
+    var keys=al?al.split('·'):[t];
+    keys.forEach(function(k){
+      k=k.trim();
+      if(k.length<2||k.length>44)return;
+      (terms[k]=terms[k]||[]).push(i+2);
+    });
   });
 });
 var keys=Object.keys(terms).sort(function(a,b){return a.localeCompare(b,'he');});

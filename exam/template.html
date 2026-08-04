@@ -86,6 +86,11 @@ td.k{font-weight:700;white-space:nowrap;color:#0b4f9e;font-feature-settings:"tnu
 .idx .t{font-weight:700}
 .idx .p{color:#0b4f9e;font-weight:700}
 .idx h3{column-span:all}
+/* כותרת המקטע הלועזי בתוך המפתח */
+.idx .ixhd{column-span:all;margin:2.5mm 0 1.5mm;padding-top:1.5mm;
+  border-top:1.2px solid #c8d0d8;font-weight:800;font-size:11.4px;color:#3d4650}
+/* שורה שמתחילה באות לטינית מוצגת LTR, אחרת המספרים קופצים לצד הלא נכון */
+.idx div.ltr{direction:ltr;text-align:left}
 
 /* ---------- הדפסה ---------- */
 @page{size:A4;margin:0}
@@ -247,39 +252,75 @@ cover.querySelector('.cover').appendChild(E('div',{'class':'tip'},
 out.insertBefore(cover,out.firstChild);
 cover.appendChild(E('div',{'class':'pgn'},'עמ׳ <b>1</b>'));
 
-/* מפתח א״ב — נבנה מהמונחים שסומנו, כך שמספרי העמודים תמיד נכונים */
+/* מפתח — נבנה מהמונחים שבעמודים, כך שמספרי העמודים תמיד נכונים.
+   בשאלת מבחן לא כתוב הנושא אלא המונח, ולכן המפתח נבנה מכל מקום שבו
+   מונח מופיע: כותרות הפריטים, העמודה הראשונה בטבלאות (שם יושב מילון
+   ראשי התיבות), ומונחים מודגשים בתוך גוף הטקסט. */
 var terms={};
+/* שברי משפט שנקלעו למפתח מהדגשה באמצע משפט, לא מונחים */
+var IXSTOP={'או':1,'אינו':1,'ואז':1,'למה':1,'הכשל':1,'הסף':1,'מה':1,'כך':1,
+  'barriers and light':1,'providing confidence':1,'fulfilling':1,
+  'protective standard procedures and devices':1,'Assurance':1,'Control':1,
+  'Actual':1,'Between Failures':1,'To Repair':1};
+function addTerm(k,pg){
+  k=String(k).replace(/^[▪\s]+/,'').replace(/[\s—:,.;·]+$/,'').trim();
+  if(k.length<2||k.length>44)return;
+  if(!/[A-Za-z֐-׿]/.test(k))return;      /* מספרים/סימנים בלבד */
+  if(/^[⟨(]/.test(k))return;
+  if(IXSTOP[k])return;
+  (terms[k]=terms[k]||[]).push(pg);
+}
 pages.forEach(function(p,i){
+  var pg=i+2;
   p.querySelectorAll('dt').forEach(function(d){
     var t=d.textContent.replace(/^▪\s*/,'').replace(/\s*—\s*$/,'').trim();
     var al=d.getAttribute('data-idx');
     /* יש כינויים — הם מחליפים את הכותרת במפתח ולא מתווספים אליה. הכותרת
        שקיבלה כינוי היא בדיוק זו שאי אפשר לחפש לפיה ("מהו", "מה נכלל"),
        ואם תישאר היא רק תרעיש. מה שכן שווה לשמר נכתב בתוך הכינויים. */
-    var keys=al?al.split('·'):[t];
-    keys.forEach(function(k){
-      k=k.trim();
-      if(k.length<2||k.length>44)return;
-      (terms[k]=terms[k]||[]).push(i+2);
-    });
+    (al?al.split('·'):[t]).forEach(function(k){addTerm(k,pg);});
+  });
+  /* מילון ראשי התיבות הוא טבלה ולא רשימת פריטים, ולכן ⟨148⟩ מונחים —
+     SLA, KPI, NPV, BIM — לא נכנסו למפתח כלל עד עכשיו. */
+  p.querySelectorAll('td.k').forEach(function(c){addTerm(c.textContent,pg);});
+  /* מונחים משניים: מודגשים בתוך גוף הפריט, לא ככותרת. */
+  p.querySelectorAll('dd b, td b, .warn b').forEach(function(b){
+    var t=b.textContent.trim();
+    if(/\s/.test(t)&&t.split(/\s+/).length>5)return;   /* משפט, לא מונח */
+    addTerm(t,pg);
   });
 });
-var keys=Object.keys(terms).sort(function(a,b){return a.localeCompare(b,'he');});
-var ixSec={name:'מפתח',color:'#3d4650',sub:'לפי א״ב',idx:DATA.sections.length-1};
+var HEB=/^[֐-׿]/;
+function sortKeys(a,b,loc){return a.toLowerCase().localeCompare(b.toLowerCase(),loc);}
+var hebKeys=Object.keys(terms).filter(function(k){return HEB.test(k);})
+              .sort(function(a,b){return sortKeys(a,b,'he');});
+var engKeys=Object.keys(terms).filter(function(k){return !HEB.test(k);})
+              .sort(function(a,b){return sortKeys(a,b,'en');});
+
+var ixSec={name:'מפתח',color:'#3d4650',sub:'עברית א״ב · לועזית A-Z',idx:DATA.sections.length-1};
 /* המפתח מתפרס על פני כמה עמודים בדיוק כמו התוכן — אחרת הוא גולש. */
 var ixFirst=pages.length+2;          /* לשורת התוכן שתתווסף בהמשך */
 var ibd=newPage(ixSec,false), ipg=ibd.parentNode, idx=E('div',{'class':'idx'});
 ibd.appendChild(idx);
-keys.forEach(function(k){
-  var u=terms[k].filter(function(v,i,a){return a.indexOf(v)===i;});
-  var row=E('div',{},'<span class="t">'+k+'</span> <span class="p">'+u.join(', ')+'</span>');
-  idx.appendChild(row);
+function idxAppend(node){
+  idx.appendChild(node);
   if(!fits(ipg)){
-    idx.removeChild(row);
+    idx.removeChild(node);
     ibd=newPage(ixSec,true); ipg=ibd.parentNode;
-    idx=E('div',{'class':'idx'}); ibd.appendChild(idx); idx.appendChild(row);
+    idx=E('div',{'class':'idx'}); ibd.appendChild(idx); idx.appendChild(node);
   }
-});
+}
+function emitKeys(list,ltr){
+  list.forEach(function(k){
+    var u=terms[k].filter(function(v,i,a){return a.indexOf(v)===i;})
+                  .sort(function(x,y){return x-y;});
+    idxAppend(E('div',ltr?{'class':'ltr'}:{},
+      '<span class="t">'+k+'</span> <span class="p">'+u.join(', ')+'</span>'));
+  });
+}
+emitKeys(hebKeys,false);
+idxAppend(E('div',{'class':'ixhd'},'מונחים לועזיים · A-Z'));
+emitKeys(engKeys,true);
 pages.forEach(function(p,i){var e=p.querySelector('.pgn');if(e)e.innerHTML='עמ׳ <b>'+(i+2)+'</b>';});
 
 /* המפתח נבנה אחרי שהשער כבר נוצר, ולכן שורתו מתווספת לתוכן העניינים רק כאן */

@@ -382,6 +382,17 @@ function practiceStart(){
   idx=0;score=0;wrong=[];ansMap=[];
   pRender();
 }
+/* המונים נגזרים מ-ansMap ולא נצברים תוך כדי — אחרת חזרה לשאלה שכבר
+   נענתה היתה סופרת אותה פעם שנייה. */
+function pTally(){
+  var ok=0,bad=[];
+  for(var i=0;i<quiz.length;i++){
+    var a=ansMap[i];
+    if(a==null)continue;
+    if(a===quiz[i].c)ok++;else bad.push(quiz[i]);
+  }
+  return {ok:ok,wrong:bad,seen:ok+bad.length};
+}
 function pRender(){
   if(idx>=quiz.length)return pResults();
   var q=quiz[idx];
@@ -389,57 +400,97 @@ function pRender(){
   var c=E("div",{"class":"card"});
   c.appendChild(topBar());
   var st=E("div",{"class":"stats"});
-  function statsHtml(done){
-    var seen=idx+(done?1:0);
+  function statsHtml(){
+    var t=pTally();
+    score=t.ok;wrong=t.wrong;
     return "<span>שאלה <b>"+(idx+1)+"</b> / <b>"+quiz.length+"</b></span>"+
-      "<span>נכונות: <b>"+score+"</b></span>"+
-      "<span>שגויות: <b>"+wrong.length+"</b></span>"+
-      "<span class='spacer'></span><span>הצלחה: <b>"+(seen?Math.round(score/seen*100)+"%":"—")+"</b></span>";
+      "<span>נכונות: <b>"+t.ok+"</b></span>"+
+      "<span>שגויות: <b>"+t.wrong.length+"</b></span>"+
+      "<span class='spacer'></span><span>הצלחה: <b>"+
+      (t.seen?Math.round(t.ok/t.seen*100)+"%":"—")+"</b></span>";
   }
-  st.innerHTML=statsHtml(false);
+  st.innerHTML=statsHtml();
   c.appendChild(st);
   c.appendChild(bar(idx/quiz.length));
   c.appendChild(metaRow(q));
   c.appendChild(E("div",{"class":"qtext"},q.q));
 
   var box=E("div");
-  answered=false;
+  var given=ansMap[idx];            /* null = טרם נענתה */
+  answered=given!=null;
+  function reveal(pick){
+    var all=box.querySelectorAll(".opt");
+    for(var k=0;k<all.length;k++)all[k].className="opt locked";
+    all[q.c].className="opt correct locked";
+    if(pick!==q.c)all[pick].className="opt wrong locked";
+    var ex=E("div",{"class":"expl"});
+    ex.innerHTML='<span class="tag">'+(pick===q.c?"נכון · ":"התשובה הנכונה: "+LET[q.c]+" · ")+'</span>'+q.e;
+    c.insertBefore(ex,navRow);
+  }
   q.o.forEach(function(txt,i){
     var b=E("button",{"class":"opt"});
     b.innerHTML='<span class="ltr">'+LET[i]+'</span><span>'+txt+'</span>';
     b.onclick=function(){
       if(answered)return;
-      answered=true;
-      var all=box.querySelectorAll(".opt");
-      for(var k=0;k<all.length;k++)all[k].className="opt locked";
-      all[q.c].className="opt correct locked";
-      if(i===q.c){score++;}
-      else{all[i].className="opt wrong locked";wrong.push(q);}
-      st.innerHTML=statsHtml(true);
-      var ex=E("div",{"class":"expl"});
-      ex.innerHTML='<span class="tag">'+(i===q.c?"נכון · ":"התשובה הנכונה: "+LET[q.c]+" · ")+'</span>'+q.e;
-      c.insertBefore(ex,navRow);
-      nextBtn.disabled=false;nextBtn.className="btn btn-pri";
+      answered=true;ansMap[idx]=i;
+      reveal(i);
+      st.innerHTML=statsHtml();
+      paintPalette();
+      nextBtn.className="btn btn-pri";
     };
     box.appendChild(b);
   });
   c.appendChild(box);
 
+  /* ניווט חופשי: אפשר לחזור אחורה, לדלג קדימה ולקפוץ ישירות מהמפה.
+     שאלה שכבר נענתה נטענת עם התשובה וההסבר, ואי אפשר לענות עליה שוב. */
   var navRow=E("div",{"class":"nav"});
-  var nextBtn=E("button",{"class":"btn"},idx===quiz.length-1?"סיום וצפייה בציון":"השאלה הבאה ←");
-  nextBtn.disabled=true;
+  var prevBtn=E("button",{"class":"btn"},"→ הקודמת");
+  prevBtn.disabled=idx===0;
+  prevBtn.onclick=function(){idx--;pRender();};
+  var nextBtn=E("button",{"class":"btn"+(answered?" btn-pri":"")},
+    idx===quiz.length-1?"סיום וצפייה בציון":"הבאה ←");
   nextBtn.onclick=function(){idx++;pRender();};
-  var skip=E("button",{"class":"btn"},"דילוג");
-  skip.onclick=function(){idx++;pRender();};
-  navRow.appendChild(nextBtn);navRow.appendChild(skip);
+  navRow.appendChild(prevBtn);navRow.appendChild(nextBtn);
   c.appendChild(navRow);
+
+  c.appendChild(E("div",{"class":"ptitle",style:"margin-top:16px"},"מפת שאלות — לחצו למעבר"));
+  var pal=E("div",{"class":"palette"});
+  function paintPalette(){
+    pal.innerHTML="";
+    quiz.forEach(function(qq,i){
+      var a=ansMap[i],cls="pbtn";
+      if(a!=null)cls+=a===qq.c?" ok":" bad";
+      if(i===idx)cls+=" cur";
+      var b=E("button",{"class":cls},String(i+1));
+      b.onclick=function(){idx=i;pRender();};
+      pal.appendChild(b);
+    });
+  }
+  paintPalette();
+  c.appendChild(pal);
+
+  var fin=E("button",{"class":"btn btn-pri"},"סיום וצפייה בציון");
+  fin.style.width="100%";fin.style.marginTop="14px";
+  fin.onclick=function(){
+    var un=quiz.length-pTally().seen;
+    if(un>0&&!confirm("נותרו "+un+" שאלות ללא מענה. לסיים בכל זאת?"))return;
+    idx=quiz.length;pRender();
+  };
+  c.appendChild(fin);
+
   app.appendChild(c);
+  if(answered)reveal(given);
   window.scrollTo(0,0);
 }
 function pResults(){
-  results(score,quiz.length,wrong,practiceStart,function(){
-    quiz=wrong.slice();if(sel.shuffle)shuffle(quiz);
-    idx=0;score=0;wrong=[];pRender();
+  /* נגזר כאן ולא נלקח מהמונים הגלובליים — כשמסיימים בכפתור "סיום"
+     מגיעים לכאן בלי שעבר עוד רינדור שיעדכן אותם. */
+  var t=pTally();
+  score=t.ok;wrong=t.wrong;
+  results(t.ok,quiz.length,t.wrong,practiceStart,function(){
+    quiz=t.wrong.slice();if(sel.shuffle)shuffle(quiz);
+    idx=0;score=0;wrong=[];ansMap=[];pRender();   /* בלי איפוס — תשובות הסבב הקודם היו נדבקות */
   },null);
 }
 

@@ -352,6 +352,26 @@ document.querySelectorAll('.pg').forEach(function(p){
 });
 document.getElementById('stat').textContent=
   document.querySelectorAll('.pg').length+' עמודים'+(over?' · '+over+' בגלישה':' · תקין');
+
+/* ---- הדפסת עמודים נבחרים ----
+   exam.html?only=11,12,34,38-43 — מציג רק את העמודים האלה, כדי להחליף
+   דפים בחוברת שכבר הודפסה במקום להדפיס הכל מחדש. רץ אחרי שהדפדוף
+   והמספור הסתיימו, ולכן אינו משפיע על חלוקת העמודים. */
+(function(){
+  var m=/[?&]only=([^&]+)/.exec(location.search); if(!m)return;
+  var want={},list=[];
+  decodeURIComponent(m[1]).split(',').forEach(function(part){
+    var r=part.split('-'),a=+r[0],b=r.length>1?+r[1]:a;
+    for(var i=a;i<=b;i++){if(!want[i]){want[i]=1;list.push(i);}}
+  });
+  var kept=0;
+  document.querySelectorAll('.pg').forEach(function(p){
+    var e=p.querySelector('.pgn b');
+    if(e&&want[+e.textContent])kept++; else p.style.display='none';
+  });
+  document.getElementById('stat').textContent=
+    'מודפסים '+kept+' עמודים נבחרים: '+list.sort(function(x,y){return x-y;}).join(', ');
+})();
 </script>
 </body>
 </html>

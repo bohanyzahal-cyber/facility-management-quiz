@@ -192,7 +192,10 @@ DATA.sections.forEach(function(sec,si){
       while(bd.lastChild && /^H[23]$/.test(bd.lastChild.tagName)){
         trail.unshift(bd.lastChild); bd.removeChild(bd.lastChild);
       }
-      bd=newPage(sec,true); pg=bd.parentNode;
+      /* אם הוצאת הכותרות רוקנה את העמוד — אין טעם לפתוח חדש ולהשאיר דף
+         ריק. זה קרה בעמוד הראשון של המילון: h2 ואחריו טבלה שאינה נכנסת,
+         ושניהם עברו הלאה. ממשיכים על אותו עמוד, והטבלה תיחתך בהמשך. */
+      if(bd.childNodes.length){ bd=newPage(sec,true); pg=bd.parentNode; }
       trail.forEach(function(t){bd.appendChild(t);});
       bd.appendChild(el);
       /* בלוק גדול מעמוד שלם — טבלה ארוכה או רשימה ארוכה — נחתך לשורות */
@@ -290,11 +293,17 @@ pages.forEach(function(p,i){
     addTerm(t,pg);
   });
 });
-var HEB=/^[֐-׿]/;
-function sortKeys(a,b,loc){return a.toLowerCase().localeCompare(b.toLowerCase(),loc);}
-var hebKeys=Object.keys(terms).filter(function(k){return HEB.test(k);})
+/* השיוך והמיון לפי האות הראשונה **שיש בה ממש** — לא לפי התו הראשון.
+   מונח שנפתח במירכאות («קהל שבוי») או בספרה (⟨140⟩ אלף ₪) נכשל בבדיקת
+   התו הראשון ונפל לבלוק הלועזי; ⟨52⟩ מונחים עבריים ישבו שם. מאותה סיבה
+   גם המיון מדלג על מה שלפני האות, כדי ש«קהל שבוי» יישב תחת ק׳. */
+function firstLetter(k){var m=String(k).match(/[A-Za-z֐-׿]/);return m?m[0]:'';}
+function isEng(k){return /[A-Za-z]/.test(firstLetter(k));}
+function sortBase(k){return String(k).replace(/^[^A-Za-z֐-׿]+/,'').toLowerCase();}
+function sortKeys(a,b,loc){return sortBase(a).localeCompare(sortBase(b),loc);}
+var hebKeys=Object.keys(terms).filter(function(k){return !isEng(k);})
               .sort(function(a,b){return sortKeys(a,b,'he');});
-var engKeys=Object.keys(terms).filter(function(k){return !HEB.test(k);})
+var engKeys=Object.keys(terms).filter(isEng)
               .sort(function(a,b){return sortKeys(a,b,'en');});
 
 var ixSec={name:'מפתח',color:'#3d4650',sub:'עברית א״ב · לועזית A-Z',idx:DATA.sections.length-1};

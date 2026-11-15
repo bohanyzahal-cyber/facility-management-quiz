@@ -132,6 +132,34 @@ header .sub{color:var(--muted);font-size:13.5px;margin-bottom:16px;}
 .rev .rq{font-weight:600;margin-bottom:6px;}
 .rev .ra{color:var(--errTx);}
 .rev .rc{color:var(--okTx);}
+#print{display:none;}
+@media print{
+  @page{size:A4;margin:11mm 10mm;}
+  html,body{background:#fff!important;color:#000!important;}
+  html{--accent:#0f5a54;--muted:#444;--okTx:#0a5c22;--border:#bbb;}
+  .wrap{max-width:none;padding:0;}
+  header,#app,.foot{display:none!important;}
+  #print{display:block!important;font-size:9.6pt;line-height:1.34;}
+  #print.cols{column-count:2;column-gap:8mm;column-rule:1px solid #ccc;}
+  .prhead{display:block;border-bottom:1.5px solid #000;padding-bottom:2mm;
+    margin-bottom:3mm;column-span:all;}
+  .prhead h2{font-size:13pt;margin:0;}
+  .prhead div{font-size:8.6pt;color:#444;margin-top:1mm;}
+  .pq{margin-bottom:2.6mm;break-inside:avoid;}
+  .pq .pt{font-size:7.6pt;color:#666;}
+  .pq .pn{font-weight:700;}
+  .pq .po{padding-right:4mm;}
+  .pq .pa{color:#0a5c22;font-weight:600;}
+  .pq .pe{font-size:8.8pt;color:#444;padding-right:4mm;}
+  /* שאלות, ואחריהן מפתח תשובות והסברים בעמוד נפרד */
+  .pcols,.pkey{column-count:2;column-gap:8mm;column-rule:1px solid #ccc;}
+  .pkey{break-before:page;page-break-before:always;}
+  .pkey h3{column-span:all;font-size:12pt;margin:0 0 3mm;padding-bottom:2mm;border-bottom:1.5px solid #000;}
+  .pk{break-inside:avoid;margin-bottom:2.2mm;font-size:8.8pt;}
+  .pkall{column-span:all;font-weight:600;padding-bottom:2mm;border-bottom:1px solid #ccc;}
+  .pk b{color:var(--accent);}
+  .pk .pe{color:var(--muted);}
+}
 @media (max-width:540px){
   .wrap{padding:16px 14px 48px;} .card{padding:16px;} .qtext{font-size:16px;}
   header h1{font-size:19px;} .pbtn{width:29px;height:29px;font-size:11.5px;}
@@ -154,7 +182,8 @@ header .sub{color:var(--muted);font-size:13.5px;margin-bottom:16px;}
   </div>
 </header>
 <div id="app"></div>
-<div style="text-align:center;color:var(--muted);font-size:12px;margin-top:24px;">
+<div id="print"></div>
+<div class="foot" style="text-align:center;color:var(--muted);font-size:12px;margin-top:24px;">
   חומר סגור · לתרגול לימודי בלבד · נבנה מחומרי הקורס באתר "למדה"
 </div>
 </div>
@@ -1659,7 +1688,60 @@ function setup(){
   go.onclick=function(){ sel.mode==="exam"?examStart():practiceStart(); };
   c.appendChild(go);
 
+  /* הדפסה לנייר — לפי אותו סינון שנבחר למעלה */
+  var pr=E("div",{"class":"toolbar"});
+  pr.style.marginTop="12px";
+  pr.appendChild(E("span",{"class":"lbl"},"הדפסה לתרגול על נייר:"));
+  [["end","🖨 שאלות, והתשובות בסוף"],
+   ["in","🖨 תשובה והסבר מתחת לכל שאלה"],
+   ["none","🖨 שאלות בלבד"]].forEach(function(m){
+    var b=E("button",{"class":"iconbtn"},m[1]);
+    b.onclick=function(){printSheet(m[0]);};
+    pr.appendChild(b);
+  });
+  c.appendChild(pr);
+  c.appendChild(E("div",{"class":"scopehint"},
+    "מדפיס את "+n+" השאלות שנבחרו למעלה — לפי הנושאים וההיקף. כדי להדפיס נושא אחד, משאירים רק אותו מסומן. "+
+    "«התשובות בסוף» מתאים לתרגול בלי מסך: עונים על הדף, ובודקים מול מפתח התשובות וההסברים שבעמודים האחרונים. "+
+    "בחלון ההדפסה אפשר גם לשמור כ־PDF."));
+
   app.appendChild(c);
+}
+
+/* ---------- הדפסה ---------- */
+/* בונה דף A4 מהשאלות שעברו את הסינון הנוכחי ופותח את חלון ההדפסה.
+   mode: "end" — מפתח תשובות והסברים בעמוד נפרד; "in" — תשובה והסבר מתחת לכל שאלה;
+   "none" — שאלות בלבד, בשתי עמודות. */
+function printSheet(mode){
+  var arr=filterBank();
+  if(!arr.length){alert("לא נבחרו שאלות להדפסה.");return;}
+  var box=document.getElementById("print");
+  box.className = mode==="none" ? "cols" : "";
+  var esc=function(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;};
+  var sub={"end":"מפתח התשובות וההסברים בסוף","in":"עם תשובות והסברים","none":"ללא תשובות"}[mode];
+  var h='<div class="prhead"><h2>בוחן תרגול — ניהול תשתיות גלובליות</h2><div>'+
+        arr.length+" שאלות · "+sub+"</div></div>";
+  if(mode==="end") h+='<div class="pcols">';
+  arr.forEach(function(q,i){
+    h+='<div class="pq"><div class="pt">'+esc(q.t)+" · "+esc((SRC_META[q.s]||{}).full||q.s)+"</div>"+
+       '<div><span class="pn">'+(i+1)+'.</span> '+esc(q.q)+"</div>";
+    q.o.forEach(function(o,k){ h+='<div class="po">'+LET[k]+". "+esc(o)+"</div>"; });
+    if(mode==="in")
+      h+='<div class="po pa">✔ '+LET[q.c]+". "+esc(q.o[q.c])+"</div>"+
+         '<div class="pe">'+esc(q.e)+"</div>";
+    h+="</div>";
+  });
+  if(mode==="end"){
+    h+='</div><div class="pkey"><h3>מפתח תשובות והסברים</h3>'+
+       '<div class="pk pkall">'+arr.map(function(q,i){return (i+1)+". "+LET[q.c];}).join(" · ")+"</div>";
+    arr.forEach(function(q,i){
+      h+='<div class="pk"><b>'+(i+1)+". "+LET[q.c]+"</b> · "+esc(q.o[q.c])+
+         '<div class="pe">'+esc(q.e)+"</div></div>";
+    });
+    h+="</div>";
+  }
+  box.innerHTML=h;
+  window.print();
 }
 
 /* ---------- shared bits ---------- */
